@@ -4,19 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Consulta Privada de Credenciales AVANZO 2026 - INTI</title>
-  <!-- CSS Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Google Fonts Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Inter', sans-serif; }
-  </style>
+  <style> body { font-family: 'Inter', sans-serif; } </style>
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
 
-  <!-- Encabezado -->
   <header class="bg-indigo-900 text-white shadow-md">
     <div class="max-w-4xl mx-auto px-4 py-5 flex flex-col sm:flex-row justify-between items-center gap-3">
       <div class="flex items-center gap-3 text-center sm:text-left">
@@ -35,36 +29,23 @@
     </div>
   </header>
 
-  <!-- Contenido Principal -->
   <main class="max-w-4xl mx-auto px-4 py-8 flex-1 w-full">
-    
-    <!-- Caja de Búsqueda -->
     <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 sm:p-8 mb-8">
       <div class="max-w-xl mx-auto text-center">
         <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-3">
           <i class="fa-solid fa-id-card text-xl"></i>
         </div>
         <h2 class="text-xl font-bold text-slate-800 mb-1">Consulta tu Credencial Individual</h2>
-        <p class="text-sm text-slate-500 mb-6">Ingresa únicamente tu número de NIE de 7 u 8 dígitos para ver tus accesos oficiales.</p>
+        <p class="text-sm text-slate-500 mb-6">Ingresa únicamente tu número de NIE para consultar tus accesos.</p>
         
         <form id="searchForm" class="flex flex-col sm:flex-row gap-3">
           <div class="relative flex-1">
             <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
               <i class="fa-solid fa-hashtag"></i>
             </div>
-            <input 
-              type="text" 
-              id="nieInput" 
-              placeholder="Ejemplo: 19820421" 
-              class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-300 text-slate-800 text-base font-medium rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white outline-none transition-all placeholder:text-slate-400"
-              autocomplete="off"
-              required
-            >
+            <input type="text" id="nieInput" placeholder="Ejemplo: 19820421" class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-300 text-slate-800 text-base font-medium rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white outline-none transition-all placeholder:text-slate-400" autocomplete="off" required>
           </div>
-          <button 
-            type="submit" 
-            class="bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-semibold px-6 py-3 rounded-xl shadow-sm hover:shadow transition-all flex items-center justify-center gap-2"
-          >
+          <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-xl shadow-sm transition-all flex items-center justify-center gap-2">
             <i class="fa-solid fa-magnifying-glass"></i>
             <span>Consultar</span>
           </button>
@@ -72,29 +53,23 @@
       </div>
     </div>
 
-    <!-- Resultados -->
     <div id="resultContainer" class="max-w-xl mx-auto">
-      
-      <!-- Estado Inicial -->
       <div id="initialState" class="text-center py-10 px-4">
         <div class="inline-block p-4 bg-slate-200/60 text-slate-400 rounded-full mb-3">
           <i class="fa-solid fa-shield-halved text-3xl"></i>
         </div>
-        <p class="text-slate-500 text-sm font-medium">Por motivos de seguridad, ninguna información estará visible hasta que ingreses tu NIE correcto.</p>
+        <p class="text-slate-500 text-sm font-medium">Por motivos de seguridad, ninguna credencial estará visible hasta que ingreses tu NIE.</p>
       </div>
 
-      <!-- Estado: No Encontrado -->
       <div id="notFoundState" class="hidden bg-rose-50 border border-rose-200 rounded-2xl p-6 text-center">
         <div class="w-10 h-10 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center mx-auto mb-2">
           <i class="fa-solid fa-circle-exclamation text-lg"></i>
         </div>
-        <h3 class="text-base font-bold text-rose-900 mb-1">NIE No Encontrado</h3>
-        <p class="text-xs text-rose-700">El número de NIE ingresado no coincide con ningún estudiante registrado en el INTI. Verifica e intenta nuevamente.</p>
+        <h3 class="text-base font-bold text-rose-900 mb-1">NIE No Registrado</h3>
+        <p class="text-xs text-rose-700">El número de NIE ingresado no coincide con ningún estudiante registrado.</p>
       </div>
 
-      <!-- Estado: Tarjeta de Credencial -->
       <div id="credentialCard" class="hidden bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden">
-        
         <div class="bg-indigo-900 text-white p-5 border-b border-indigo-800 flex justify-between items-start">
           <div>
             <span id="resEspecialidad" class="inline-block bg-indigo-800 text-indigo-200 text-[11px] font-semibold px-2.5 py-0.5 rounded-md tracking-wide uppercase mb-1.5 border border-indigo-700"></span>
@@ -103,7 +78,6 @@
           </div>
           <span id="resSeccion" class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-bold px-2.5 py-1 rounded-full whitespace-nowrap"></span>
         </div>
-
         <div class="p-5 space-y-4">
           <div>
             <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">NIE Estudiantil</label>
@@ -112,512 +86,76 @@
               <i class="fa-solid fa-id-badge text-slate-400"></i>
             </div>
           </div>
-
           <div>
-            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Usuario / Correo Institucional</label>
+            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Usuario Institucional</label>
             <div class="bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-slate-800 font-mono text-sm font-medium flex items-center justify-between">
               <span id="resUsuario" class="select-all"></span>
               <i class="fa-solid fa-envelope text-slate-400"></i>
             </div>
           </div>
-
           <div>
             <label class="block text-[11px] font-bold uppercase tracking-wider text-indigo-600 mb-1">Contraseña AVANZO</label>
             <div class="bg-indigo-50/80 border border-indigo-200 rounded-lg px-3.5 py-3 text-indigo-900 font-mono text-lg font-bold flex items-center justify-between shadow-inner">
               <span id="resPassword" class="tracking-wider select-all"></span>
-              <button id="copyBtn" type="button" class="bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white text-xs font-semibold px-3 py-1.5 rounded-md shadow-sm transition-all flex items-center gap-1.5">
+              <button id="copyBtn" type="button" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-3 py-1.5 rounded-md shadow-sm transition-all flex items-center gap-1.5">
                 <i class="fa-regular fa-copy"></i>
                 <span id="copyText">Copiar</span>
               </button>
             </div>
           </div>
         </div>
-
-        <div class="bg-slate-50 px-5 py-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
-          <span><i class="fa-regular fa-clock mr-1"></i>Prueba: 28 y 29 de Octubre 2026</span>
-          <a href="https://evaluaciones.mined.gob.sv" target="_blank" class="text-indigo-600 font-semibold hover:underline flex items-center gap-1">
-            Plataforma MINED <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
-          </a>
-        </div>
-
       </div>
-
     </div>
-
   </main>
 
-  <!-- Pie de página -->
-  <footer class="bg-white border-t border-slate-200 py-4 mt-auto">
-    <div class="max-w-4xl mx-auto px-4 text-center text-xs text-slate-400">
-      <p>© 2026 Instituto Nacional Técnico Industrial (INTI). Información confidencial del MINED.</p>
-    </div>
-  </footer>
-
-  <!-- Lógica en JS con los 222 estudiantes -->
   <script>
-    const db = [
-      // Electrónica Sec A
-      {nie:"19820421", ape:"ARÉVALO LÓPEZ", nom:"EDGAR JOSUÉ", usr:"19820421@clases.edu.sv", pwd:"S4WG15", esp:"ELECTRÓNICA", sec:"Sección A"},
-      {nie:"19820437", ape:"ARÉVALO LÓPEZ", nom:"SAMUEL ISAÍ", usr:"19820437@clases.edu.sv", pwd:"S4XW2U", esp:"ELECTRÓNICA", sec:"Sección A"},
-      {nie:"19703680", ape:"BARRIENTOS VÁSQUEZ", nom:"ANDREA SARAÍ", usr:"19703680@clases.edu.sv", pwd:"043ZD5", esp:"ELECTRÓNICA", sec:"Sección A"},
-      {nie:"6078150", ape:"CANDELARIO", nom:"JONATHAN ESTUARDO", usr:"6078150@clases.edu.sv", pwd:"K81QPZ", esp:"ELECTRÓNICA", sec:"Sección A"},
-      {nie:"7281499", ape:"CRUZ GRANADOS", nom:"CARLOS ALBERTO", usr:"7281499@clases.edu.sv", pwd:"N18KG8", esp:"ELECTRÓNICA", sec:"Sección A"},
-      {nie:"10276257", ape:"CRUZ REYES", nom:"JOSÉ DANIEL", usr:"10276257@clases.edu.sv", pwd:"NSWYRG", esp:"ELECTRÓNICA", sec:"Sección A"},
-      {nie:"4211992", ape:"GONZÁLEZ LÓPEZ", nom:"JAZAEL ALFONSO", usr:"4211992@clases.edu.sv", pwd:"DPGJN8", esp:"ELECTRÓNICA", sec:"Sección A"},
-      {nie:"4840327", ape:"HERNÁNDEZ RIVAS", nom:"NATHALY ABIGAIL", usr:"4840327@clases.edu.sv", pwd:"FJBCMV", esp:"ELECTRÓNICA", sec:"Sección A"},
-      {nie:"2689553", ape:"MARTÍNEZ ROSALES", nom:"JACQUELINE MICHELLE", usr:"2689553@clases.edu.sv", pwd:"ADVSGO", esp:"ELECTRÓNICA", sec:"Sección A"},
-      {nie:"2788448", ape:"MEJÍA MARINERO", nom:"FERNANDA SOFÍA", usr:"2788448@clases.edu.sv", pwd:"AQNCUR", esp:"ELECTRÓNICA", sec:"Sección A"},
-      {nie:"5104182", ape:"MÉNDEZ VELASQUEZ", nom:"BRYAN LEONEL", usr:"5104182@clases.edu.sv", pwd:"H4AQW6", esp:"ELECTRÓNICA", sec:"Sección A"},
-      {nie:"2772342", ape:"MENJÍVAR CAMPOS", nom:"DANIEL EDUARDO", usr:"2772342@clases.edu.sv", pwd:"ANCS9W", esp:"ELECTRÓNICA", sec:"Sección A"},
-      {nie:"4656349", ape:"MUÑOZ HERNÁNDEZ", nom:"ADILSON JAVIER", usr:"4656349@clases.edu.sv", pwd:"EHQBNR", esp:"ELECTRÓNICA", sec:"Sección A"},
-      {nie:"19783426", ape:"OLIVARES MARTÍNEZ", nom:"MAURICIO ALEJANDRO", usr:"19783426@clases.edu.sv", pwd:"QW4TZL", esp:"ELECTRÓNICA", sec:"Sección A"},
-      {nie:"19730617", ape:"RAMÍREZ MARTÍNEZ", nom:"KOBE ALEXANDER", usr:"19730617@clases.edu.sv", pwd:"OV87CV", esp:"ELECTRÓNICA", sec:"Sección A"},
-      {nie:"3269386", ape:"RODRÍGUEZ GÁMEZ", nom:"BENJAMÍN ALEXANDER", usr:"3269386@clases.edu.sv", pwd:"C1KPYG", esp:"ELECTRÓNICA", sec:"Sección A"},
-      {nie:"6375635", ape:"SÁNCHEZ CASTRO", nom:"VÍCTOR SAÚL", usr:"6375635@clases.edu.sv", pwd:"KSTT31", esp:"ELECTRÓNICA", sec:"Sección A"},
-      {nie:"4521238", ape:"VALLES VÁSQUEZ", nom:"CARLOS MANUEL", usr:"4521238@clases.edu.sv", pwd:"EBXHUD", esp:"ELECTRÓNICA", sec:"Sección A"},
-
-      // Electrónica Sec B
-      {nie:"19764386", ape:"CASTILLO ROMERO", nom:"JONATHAN FRANCISCO", usr:"19764386@clases.edu.sv", pwd:"Q6D4AN", esp:"ELECTRÓNICA", sec:"Sección B"},
-      {nie:"7196400", ape:"CUÉLLAR DEODANES", nom:"DIANA CAROLINA", usr:"7196400@clases.edu.sv", pwd:"MY8X23", esp:"ELECTRÓNICA", sec:"Sección B"},
-      {nie:"6372555", ape:"GARCÍA LÓPEZ", nom:"ERICK ADONAY", usr:"6372555@clases.edu.sv", pwd:"KRMCUO", esp:"ELECTRÓNICA", sec:"Sección B"},
-      {nie:"6932036", ape:"GONZÁLEZ DURÁN", nom:"MARCELA ALEJANDRA", usr:"6932036@clases.edu.sv", pwd:"MJPE7H", esp:"ELECTRÓNICA", sec:"Sección B"},
-      {nie:"3270378", ape:"GONZÁLEZ VILLALOVO", nom:"ADRIANA MICHELLE", usr:"3270378@clases.edu.sv", pwd:"C24TO9", esp:"ELECTRÓNICA", sec:"Sección B"},
-      {nie:"5012371", ape:"HERNÁNDEZ CORTEZ", nom:"DIEGO ALEXANDER", usr:"5012371@clases.edu.sv", pwd:"GCNG2G", esp:"ELECTRÓNICA", sec:"Sección B"},
-      {nie:"5717806", ape:"HERNÁNDEZ TORRES", nom:"JEFFERSON MOISÉS", usr:"5717806@clases.edu.sv", pwd:"J9DJOR", esp:"ELECTRÓNICA", sec:"Sección B"},
-      {nie:"6440256", ape:"JORGE GUEVARA", nom:"RAFAEL ALFONSO", usr:"6440256@clases.edu.sv", pwd:"L1F40E", esp:"ELECTRÓNICA", sec:"Sección B"},
-      {nie:"5012401", ape:"LÓPEZ FLORES", nom:"ÁNGEL OSWALDO", usr:"5012401@clases.edu.sv", pwd:"GCTBRZ", esp:"ELECTRÓNICA", sec:"Sección B"},
-      {nie:"3011020", ape:"LÓPEZ LARA", nom:"DANIEL ISAAC", usr:"3011020@clases.edu.sv", pwd:"B3A770", esp:"ELECTRÓNICA", sec:"Sección B"},
-      {nie:"4986283", ape:"LÓPEZ OCHOA", nom:"NICOLÁS ERNESTO", usr:"4986283@clases.edu.sv", pwd:"G3HS38", esp:"ELECTRÓNICA", sec:"Sección B"},
-      {nie:"7320924", ape:"MANCÍA MARTÍNEZ", nom:"DANIEL STEVEN", usr:"7320924@clases.edu.sv", pwd:"N6PWQ1", esp:"ELECTRÓNICA", sec:"Sección B"},
-      {nie:"19889625", ape:"MARTÍNEZ GARAY", nom:"RODRIGO ANDRÉS", usr:"19889625@clases.edu.sv", pwd:"TVZPL3", esp:"ELECTRÓNICA", sec:"Sección B"},
-      {nie:"19773692", ape:"MIRANDA MÓNICO", nom:"RAÚL VLADIMIR", usr:"19773692@clases.edu.sv", pwd:"QHXJZW", esp:"ELECTRÓNICA", sec:"Sección B"},
-      {nie:"3634247", ape:"PÉREZ QUINTANILLA", nom:"EDUARDO ABDIEL", usr:"3634247@clases.edu.sv", pwd:"CTFFAT", esp:"ELECTRÓNICA", sec:"Sección B"},
-      {nie:"7320943", ape:"RIVAS CHICAS", nom:"BRANDON SALOMÓN", usr:"7320943@clases.edu.sv", pwd:"N6SKSZ", esp:"ELECTRÓNICA", sec:"Sección B"},
-      {nie:"19800482", ape:"SALAZAR MÉNDEZ", nom:"GUSTAVO AΝΤΟΝΙΟ", usr:"19800482@clases.edu.sv", pwd:"RJA5Y9", esp:"ELECTRÓNICA", sec:"Sección B"},
-      {nie:"19807030", ape:"SÁNCHEZ VENTURA", nom:"ADRIAN ENRIQUE", usr:"19807030@clases.edu.sv", pwd:"RPZWSC", esp:"ELECTRÓNICA", sec:"Sección B"},
-
-      // Infraestructura Tecnológica Sec A
-      {nie:"19886436", ape:"ALBANEZ GIRON", nom:"PAMELA ALEXANDRA", usr:"19886436@clases.edu.sv", pwd:"TS9BT3", esp:"INFRA. TECNOLÓGICA", sec:"Sección A"},
-      {nie:"4473640", ape:"ARGUETA GUARDADO", nom:"ROMARIO ISRAEL", usr:"4473640@clases.edu.sv", pwd:"E992CO", esp:"INFRA. TECNOLÓGICA", sec:"Sección A"},
-      {nie:"2355154", ape:"ARGUETA RIVERA", nom:"HÉCTOR DANIEL", usr:"2355154@clases.edu.sv", pwd:"A4FA2J", esp:"INFRA. TECNOLÓGICA", sec:"Sección A"},
-      {nie:"20145757", ape:"ÁVALOS HERNÁNDEZ", nom:"SUAMY RAQUEL", usr:"20145757@clases.edu.sv", pwd:"YZVF1J", esp:"INFRA. TECNOLÓGICA", sec:"Sección A"},
-      {nie:"4472232", ape:"CLAROS ASCENCIO", nom:"JOSUE AARON", usr:"4472232@clases.edu.sv", pwd:"E83M89", esp:"INFRA. TECNOLÓGICA", sec:"Sección A"},
-      {nie:"7119109", ape:"CORTÉZ CARDOZA", nom:"EDWIN JAVIER", usr:"7119109@clases.edu.sv", pwd:"MT5AB4", esp:"INFRA. TECNOLÓGICA", sec:"Sección A"},
-      {nie:"6727949", ape:"CRUZ SANTAMARÍA", nom:"NOÉ ADRIÁN", usr:"6727949@clases.edu.sv", pwd:"LOO3SW", esp:"INFRA. TECNOLÓGICA", sec:"Sección A"},
-      {nie:"4267821", ape:"DEODANES PÉREZ", nom:"DINORA IVETH", usr:"4267821@clases.edu.sv", pwd:"DVMOUD", esp:"INFRA. TECNOLÓGICA", sec:"Sección A"},
-      {nie:"7091044", ape:"ELIAS ORTIZ", nom:"JAVIER ENRIQUE", usr:"7091044@clases.edu.sv", pwd:"MNE3HL", esp:"INFRA. TECNOLÓGICA", sec:"Sección A"},
-      {nie:"4658868", ape:"FUENTES AQUIÁN", nom:"KEVIN ALEXIS", usr:"4658868@clases.edu.sv", pwd:"EURUWS", esp:"INFRA. TECNOLÓGICA", sec:"Sección A"},
-      {nie:"4658492", ape:"LÓPEZ MORATAYA", nom:"MIGUEL ANGEL", usr:"4658492@clases.edu.sv", pwd:"ESTJWP", esp:"INFRA. TECNOLÓGICA", sec:"Sección A"},
-      {nie:"10273545", ape:"MIRANDA VALENCIA", nom:"BRANDON OLIVER", usr:"10273545@clases.edu.sv", pwd:"NSDZH3", esp:"INFRA. TECNOLÓGICA", sec:"Sección A"},
-      {nie:"3009494", ape:"MORALES FLORES", nom:"BALBINO CESAR", usr:"3009494@clases.edu.sv", pwd:"B2PQJB", esp:"INFRA. TECNOLÓGICA", sec:"Sección A"},
-      {nie:"19704189", ape:"MORÁN ALVARADO", nom:"JOSÉ FABRICIO", usr:"19704189@clases.edu.sv", pwd:"04ΤΗΡΟ", esp:"INFRA. TECNOLÓGICA", sec:"Sección A"},
-      {nie:"4658685", ape:"PINEDA CRUZ", nom:"MADELYN NATALI", usr:"4658685@clases.edu.sv", pwd:"ETT44M", esp:"INFRA. TECNOLÓGICA", sec:"Sección A"},
-      {nie:"2789291", ape:"RIVERA RIVAS", nom:"MATEO OTTONIEL", usr:"2789291@clases.edu.sv", pwd:"AQVTQ9", esp:"INFRA. TECNOLÓGICA", sec:"Sección A"},
-      {nie:"10206954", ape:"RODRIGUEZ VEGA", nom:"JOSUE VLADIMIR", usr:"10206954@clases.edu.sv", pwd:"NKXC6Y", esp:"INFRA. TECNOLÓGICA", sec:"Sección A"},
-      {nie:"3982114", ape:"RUANO CRUZ", nom:"GABRIELA DANAE", usr:"3982114@clases.edu.sv", pwd:"DB9MDQ", esp:"INFRA. TECNOLÓGICA", sec:"Sección A"},
-      {nie:"6411952", ape:"SEGOVIA ΜΕΙΙΑ", nom:"STEVEN GERARD", usr:"6411952@clases.edu.sv", pwd:"KXHRCO", esp:"INFRA. TECNOLÓGICA", sec:"Sección A"},
-      {nie:"4301731", ape:"TREJO MARTÍNEZ", nom:"TAMARA ESTHER", usr:"4301731@clases.edu.sv", pwd:"DXTMMM", esp:"INFRA. TECNOLÓGICA", sec:"Sección A"},
-      {nie:"6047255", ape:"VÁSQUEZ MIRANDA", nom:"DANIEL ELISEO", usr:"6047255@clases.edu.sv", pwd:"K2KEQF", esp:"INFRA. TECNOLÓGICA", sec:"Sección A"},
-
-      // Desarrollo de Software Sec A
-      {nie:"10261081", ape:"AGUIRRE MALDONADO", nom:"NELSON ALEXANDER", usr:"10261081@clases.edu.sv", pwd:"NP1OBS", esp:"DESARROLLO DE SOFTWARE", sec:"Sección A"},
-      {nie:"3161612", ape:"CARRILLO FLORES", nom:"NATALIA ESTEFANY", usr:"3161612@clases.edu.sv", pwd:"BDRCC2", esp:"DESARROLLO DE SOFTWARE", sec:"Sección A"},
-      {nie:"10481960", ape:"CETINO BELTRÁN", nom:"EDUARDO JOSÉ", usr:"10481960@clases.edu.sv", pwd:"NWR94S", esp:"DESARROLLO DE SOFTWARE", sec:"Sección A"},
-      {nie:"19995108", ape:"CHOTO AMAYA", nom:"CHRISTOPHER ALESSANDRO", usr:"9995108@clases.edu.sv", pwd:"X27SHP", esp:"DESARROLLO DE SOFTWARE", sec:"Sección A"},
-      {nie:"5304618", ape:"COREAS ESCALANTE", nom:"LESTER FERNANDO", usr:"5304618@clases.edu.sv", pwd:"HB9AYW", esp:"DESARROLLO DE SOFTWARE", sec:"Sección A"},
-      {nie:"19787264", ape:"COTO HERNÁNDEZ", nom:"IVANIA VANESSA", usr:"19787264@clases.edu.sv", pwd:"R1FZTR", esp:"DESARROLLO DE SOFTWARE", sec:"Sección A"},
-      {nie:"4657565", ape:"DOMÍNGUEZ CALZADA", nom:"CRISTIAN ALEXANDER", usr:"4657565@clases.edu.sv", pwd:"EOAVVX", esp:"DESARROLLO DE SOFTWARE", sec:"Sección A"},
-      {nie:"19954380", ape:"FLORES RODRÍGUEZ", nom:"RUBIDIA TAΤΙΑΝΑ", usr:"19954380@clases.edu.sv", pwd:"VUB5ZN", esp:"DESARROLLO DE SOFTWARE", sec:"Sección A"},
-      {nie:"3485966", ape:"FUENTES VALDEZ", nom:"MELANY PRÍSCILA", usr:"3485966@clases.edu.sv", pwd:"CFTBQ7", esp:"DESARROLLO DE SOFTWARE", sec:"Sección A"},
-      {nie:"19998723", ape:"GIRÓN VILLALTA", nom:"MARCELO AARÓN", usr:"19998723@clases.edu.sv", pwd:"X4EJ1U", esp:"DESARROLLO DE SOFTWARE", sec:"Sección A"},
-      {nie:"20289250", ape:"MARTÍNEZ RAMOS", nom:"WALTER ADONAY", usr:"20289250@clases.edu.sv", pwd:"ZPYBMK", esp:"DESARROLLO DE SOFTWARE", sec:"Sección A"},
-      {nie:"19890182", ape:"MEDINA MARTÍNEZ", nom:"MICHAEL ADONAY", usr:"19890182@clases.edu.sv", pwd:"TX692M", esp:"DESARROLLO DE SOFTWARE", sec:"Sección A"},
-      {nie:"4268926", ape:"MÉNDEZ GARCÍA", nom:"LILIANA ABIGAIL", usr:"4268926@clases.edu.sv", pwd:"DWFXYY", esp:"DESARROLLO DE SOFTWARE", sec:"Sección A"},
-      {nie:"5365118", ape:"NAJARRO HERNÁNDEZ", nom:"GENARO ALEXANDER", usr:"5365118@clases.edu.sv", pwd:"HJR5WL", esp:"DESARROLLO DE SOFTWARE", sec:"Sección A"},
-      {nie:"19802953", ape:"PÉREZ CARMONA", nom:"ERICK ELIEZER", usr:"19802953@clases.edu.sv", pwd:"RLEH6L", esp:"DESARROLLO DE SOFTWARE", sec:"Sección A"},
-      {nie:"19996874", ape:"PÉREZ CARRILLO", nom:"GUSTAVO ENRIQUE", usr:"19996874@clases.edu.sv", pwd:"X3AWWE", esp:"DESARROLLO DE SOFTWARE", sec:"Sección A"},
-      {nie:"20144126", ape:"PÉREZ MARTÍNEZ", nom:"LUISA YAMILETH", usr:"20144126@clases.edu.sv", pwd:"YZ2LOP", esp:"DESARROLLO DE SOFTWARE", sec:"Sección A"},
-      {nie:"6262905", ape:"PÉREZ RAMÍREZ", nom:"ERICK FERNANDO", usr:"6262905@clases.edu.sv", pwd:"KFHM6K", esp:"DESARROLLO DE SOFTWARE", sec:"Sección A"},
-      {nie:"19797410", ape:"RAMOS RAMÍREZ", nom:"DARLING ZARAHİ", usr:"19797410@clases.edu.sv", pwd:"REB8BG", esp:"DESARROLLO DE SOFTWARE", sec:"Sección A"},
-      {nie:"19884663", ape:"RODAS ERRODAS", nom:"JUSTIN ADONAY", usr:"19884663@clases.edu.sv", pwd:"TQLWW2", esp:"DESARROLLO DE SOFTWARE", sec:"Sección A"},
-      {nie:"19882727", ape:"ZELADA MIRANDA", nom:"JONATHAN STEVEN", usr:"19882727@clases.edu.sv", pwd:"TNAW1L", esp:"DESARROLLO DE SOFTWARE", sec:"Sección A"},
-
-      // Desarrollo de Software Sec B
-      {nie:"4957449", ape:"ARTEAGA YGLESIAS", nom:"ALFREDO DAGOBERTO", usr:"4957449@clases.edu.sv", pwd:"FTXJ9Q", esp:"DESARROLLO DE SOFTWARE", sec:"Sección B"},
-      {nie:"5365140", ape:"CALDERÓN GONZÁLEZ", nom:"BRANDON EMMANUEL", usr:"5365140@clases.edu.sv", pwd:"HJVHZ8", esp:"DESARROLLO DE SOFTWARE", sec:"Sección B"},
-      {nie:"19725633", ape:"CRUZ ORELLANA", nom:"GABRIELA IVETH", usr:"19725633@clases.edu.sv", pwd:"OQCW3P", esp:"DESARROLLO DE SOFTWARE", sec:"Sección B"},
-      {nie:"6867614", ape:"CRUZ ROMERO", nom:"JOSÉ ALEJANDRO", usr:"6867614@clases.edu.sv", pwd:"LY8PSJ", esp:"DESARROLLO DE SOFTWARE", sec:"Sección B"},
-      {nie:"20051391", ape:"ELÍAS CHÁVEZ", nom:"ISAI ERNESTO", usr:"20051391@clases.edu.sv", pwd:"XVB2Y3", esp:"DESARROLLO DE SOFTWARE", sec:"Sección B"},
-      {nie:"2955650", ape:"GONZÁLEZ AYALA", nom:"MICHAEL SAMUEL", usr:"2955650@clases.edu.sv", pwd:"AYMQDK", esp:"DESARROLLO DE SOFTWARE", sec:"Sección B"},
-      {nie:"3566110", ape:"JACO GONZÁLEZ", nom:"ALISON GISELLE", usr:"3566110@clases.edu.sv", pwd:"CSLY8K", esp:"DESARROLLO DE SOFTWARE", sec:"Sección B"},
-      {nie:"3555670", ape:"MÁRQUEZ RIVAS", nom:"MARCOS GUILLERMO", usr:"3555670@clases.edu.sv", pwd:"CJSCUF", esp:"DESARROLLO DE SOFTWARE", sec:"Sección B"},
-      {nie:"20159245", ape:"MARTÍNEZ CAÑAS", nom:"KEVIN OTONIEL", usr:"20159245@clases.edu.sv", pwd:"Z7PFB2", esp:"DESARROLLO DE SOFTWARE", sec:"Sección B"},
-      {nie:"3267288", ape:"MARTÍNEZ CLAROS", nom:"CRISTIAN EMANUEL", usr:"3267288@clases.edu.sv", pwd:"BY3Z34", esp:"DESARROLLO DE SOFTWARE", sec:"Sección B"},
-      {nie:"19999441", ape:"MEJÍA MINERO", nom:"OSCAR GABRIEL", usr:"19999441@clases.edu.sv", pwd:"X4PZD5", esp:"DESARROLLO DE SOFTWARE", sec:"Sección B"},
-      {nie:"3129902", ape:"MÉNDEZ VALLE", nom:"AMALIA CAROLINA", usr:"3129902@clases.edu.sv", pwd:"BBNT8K", esp:"DESARROLLO DE SOFTWARE", sec:"Sección B"},
-      {nie:"19996836", ape:"ORELLANA SANTOS", nom:"JOEL EDGARDO", usr:"19996836@clases.edu.sv", pwd:"X37N3J", esp:"DESARROLLO DE SOFTWARE", sec:"Sección B"},
-      {nie:"19795194", ape:"PEÑA PÉREZ", nom:"JONATHAN EDGARDO", usr:"19795194@clases.edu.sv", pwd:"RBKQLE", esp:"DESARROLLO DE SOFTWARE", sec:"Sección B"},
-      {nie:"19941451", ape:"PRADO ESCOBAR", nom:"DANIEL ANTΟΝΙΟ", usr:"19941451@clases.edu.sv", pwd:"VGLBFE", esp:"DESARROLLO DE SOFTWARE", sec:"Sección B"},
-      {nie:"3776115", ape:"RAMÍREZ FLORES", nom:"ANDRÉS ERNESTO", usr:"3776115@clases.edu.sv", pwd:"D33Y8Q", esp:"DESARROLLO DE SOFTWARE", sec:"Sección B"},
-      {nie:"6866815", ape:"REYES LINARES", nom:"NAHOMY ARELY", usr:"6866815@clases.edu.sv", pwd:"LXBTMM", esp:"DESARROLLO DE SOFTWARE", sec:"Sección B"},
-      {nie:"4213268", ape:"RIVERA ROSALES", nom:"DAVID ALBERTO", usr:"4213268@clases.edu.sv", pwd:"DQJJQJ", esp:"DESARROLLO DE SOFTWARE", sec:"Sección B"},
-      {nie:"20139864", ape:"TORRES BELLOSO", nom:"MARCELO ALESSANDRO", usr:"20139864@clases.edu.sv", pwd:"YWY17R", esp:"DESARROLLO DE SOFTWARE", sec:"Sección B"},
-      {nie:"19996967", ape:"VÁSQUEZ PASCUAL", nom:"JONATHAN ABINADAD", usr:"19996967@clases.edu.sv", pwd:"X3JGB5", esp:"DESARROLLO DE SOFTWARE", sec:"Sección B"},
-      {nie:"19714131", ape:"ZETINO MONGE", nom:"WALTER ELIEZER", usr:"19714131@clases.edu.sv", pwd:"OBME3W", esp:"DESARROLLO DE SOFTWARE", sec:"Sección B"},
-
-      // Mantenimiento Automotriz Sec A
-      {nie:"19802945", ape:"ACEVEDO SÁNCHEZ", nom:"LEVÍ EZEQUIEL", usr:"19802945@clases.edu.sv", pwd:"RLDK1Q", esp:"AUTOMOTRIZ", sec:"Sección A"},
-      {nie:"5616479", ape:"AYALA BELTRÁN", nom:"IRENE PAOLA", usr:"5616479@clases.edu.sv", pwd:"J5L2JY", esp:"AUTOMOTRIZ", sec:"Sección A"},
-      {nie:"19872786", ape:"AYALA MANCÍA", nom:"ANDERSON GUSTAVO", usr:"19872786@clases.edu.sv", pwd:"TD9QPC", esp:"AUTOMOTRIZ", sec:"Sección A"},
-      {nie:"19787263", ape:"CARRANZA FUENTES", nom:"SAMUEL ANΝΤΟΝΙΟ", usr:"19787263@clases.edu.sv", pwd:"R1FUUM", esp:"AUTOMOTRIZ", sec:"Sección A"},
-      {nie:"20143625", ape:"CASTRO RODAS", nom:"FERNANDO ISAÍAS", usr:"20143625@clases.edu.sv", pwd:"YYD4ZU", esp:"AUTOMOTRIZ", sec:"Sección A"},
-      {nie:"5544680", ape:"CHÁVEZ PEÑA", nom:"MARVIN EFRAIN", usr:"5544680@clases.edu.sv", pwd:"HXFPJC", esp:"AUTOMOTRIZ", sec:"Sección A"},
-      {nie:"7122680", ape:"DÍAZ RODAS", nom:"CARLOS DANIEL", usr:"7122680@clases.edu.sv", pwd:"MVKEGT", esp:"AUTOMOTRIZ", sec:"Sección A"},
-      {nie:"6658399", ape:"FUNES ARQUIONI", nom:"DAVID ENRIQUE", usr:"6658399@clases.edu.sv", pwd:"LLJ586", esp:"AUTOMOTRIZ", sec:"Sección A"},
-      {nie:"19725615", ape:"HERNÁNDEZ CRUZ", nom:"JONATHAN VLADIMIR", usr:"19725615@clases.edu.sv", pwd:"OQB4H9", esp:"AUTOMOTRIZ", sec:"Sección A"},
-      {nie:"20165098", ape:"JORGE PÈÑA", nom:"GABRIEL ALEXANDER", usr:"20165098@clases.edu.sv", pwd:"ZB75M6", esp:"AUTOMOTRIZ", sec:"Sección A"},
-      {nie:"2465110", ape:"LARA MÁRTIR", nom:"ERICK ALEXANDER", usr:"2465110@clases.edu.sv", pwd:"A5F85W", esp:"AUTOMOTRIZ", sec:"Sección A"},
-      {nie:"19725602", ape:"MÁRMOL MARTÍNEZ", nom:"JOSÉ EDENILSON", usr:"19725602@clases.edu.sv", pwd:"OQ98JT", esp:"AUTOMOTRIZ", sec:"Sección A"},
-      {nie:"4658672", ape:"MÉNDEZ DÍAZ", nom:"ISAAC BENJAMÍN", usr:"4658672@clases.edu.sv", pwd:"ETQ62C", esp:"AUTOMOTRIZ", sec:"Sección A"},
-      {nie:"4958346", ape:"MONTANO HENRÍQUEZ", nom:"AMNER JEFFERSON", usr:"4958346@clases.edu.sv", pwd:"FUSRGS", esp:"AUTOMOTRIZ", sec:"Sección A"},
-      {nie:"19858019", ape:"MORALES BRACAMONTE", nom:"JUAN JOSÉ", usr:"19858019@clases.edu.sv", pwd:"SZAVCC", esp:"AUTOMOTRIZ", sec:"Sección A"},
-      {nie:"3876895", ape:"MORÁN VÁSQUEZ", nom:"EDWARD ISAAC", usr:"3876895@clases.edu.sv", pwd:"DAKUTP", esp:"AUTOMOTRIZ", sec:"Sección A"},
-      {nie:"20118777", ape:"PÉREZ ANTILLÓN", nom:"JAIRO AMILCAR", usr:"20118777@clases.edu.sv", pwd:"YOJFDE", esp:"AUTOMOTRIZ", sec:"Sección A"},
-      {nie:"3853714", ape:"PÉREZ DÍAZ", nom:"EMANUEL ISAÍ", usr:"3853714@clases.edu.sv", pwd:"D6NNT8", esp:"AUTOMOTRIZ", sec:"Sección A"},
-      {nie:"20082783", ape:"PINEDA RIVERA", nom:"MIGUEL ALEJANDRO", usr:"20082783@clases.edu.sv", pwd:"Y8CSN7", esp:"AUTOMOTRIZ", sec:"Sección A"},
-      {nie:"4659321", ape:"RENDEROS CRUZ", nom:"JONATHAN SAMUEL", usr:"4659321@clases.edu.sv", pwd:"EWZYG2", esp:"AUTOMOTRIZ", sec:"Sección A"},
-      {nie:"3714366", ape:"RIVERA CHÁVEZ", nom:"EDWAR ALEXIS", usr:"3714366@clases.edu.sv", pwd:"CZR8UC", esp:"AUTOMOTRIZ", sec:"Sección A"},
-      {nie:"19781856", ape:"SERPAS RIVAS", nom:"MANUEL ALEXANDER", usr:"19781856@clases.edu.sv", pwd:"QUYO61", esp:"AUTOMOTRIZ", sec:"Sección A"},
-      {nie:"2748082", ape:"VÁSQUEZ LÓPEZ", nom:"JONATHAN ELIEZER", usr:"2748082@clases.edu.sv", pwd:"ALWVPO", esp:"AUTOMOTRIZ", sec:"Sección A"},
-
-      // Mantenimiento Automotriz Sec B
-      {nie:"10206318", ape:"ACOSTA ORTIZ", nom:"MARIO ENRIQUE", usr:"10206318@clases.edu.sv", pwd:"NKKAGP", esp:"AUTOMOTRIZ", sec:"Sección B"},
-      {nie:"3220941", ape:"ANDRÉS VÁSQUEZ", nom:"DARWIN ADONAY", usr:"3220941@clases.edu.sv", pwd:"BPRDEP", esp:"AUTOMOTRIZ", sec:"Sección B"},
-      {nie:"5024789", ape:"CAMPOS DEL CID", nom:"ASHLEY NICOLE", usr:"5024789@clases.edu.sv", pwd:"GJZVCL", esp:"AUTOMOTRIZ", sec:"Sección B"},
-      {nie:"5359958", ape:"CASTILLO ROMERO", nom:"NELSON MAURICIO", usr:"5359958@clases.edu.sv", pwd:"HH6RX5", esp:"AUTOMOTRIZ", sec:"Sección B"},
-      {nie:"4985416", ape:"CERÉN ALFARO", nom:"JAVIER ANTΟΝΙΟ", usr:"4985416@clases.edu.sv", pwd:"G26FNP", esp:"AUTOMOTRIZ", sec:"Sección B"},
-      {nie:"4300571", ape:"ERAZO ALVAYERO", nom:"MARÍA MILAGRO", usr:"4300571@clases.edu.sv", pwd:"DX8852", esp:"AUTOMOTRIZ", sec:"Sección B"},
-      {nie:"5359955", ape:"HENRÍQUEZ VANEGAS", nom:"PABLO ALEXANDER", usr:"5359955@clases.edu.sv", pwd:"HH4HQ4", esp:"AUTOMOTRIZ", sec:"Sección B"},
-      {nie:"4960181", ape:"HERRERA MUNDO", nom:"JOSUÉ EDGARDO", usr:"4960181@clases.edu.sv", pwd:"FVVJHE", esp:"AUTOMOTRIZ", sec:"Sección B"},
-      {nie:"6046999", ape:"LARÍN JIMÉNEZ", nom:"BRYAN EZEQUIEL", usr:"6046999@clases.edu.sv", pwd:"K2K2Z2", esp:"AUTOMOTRIZ", sec:"Sección B"},
-      {nie:"6654339", ape:"MANZUR OVIEDO", nom:"CARLOS ENRIQUE", usr:"6654339@clases.edu.sv", pwd:"LG8UVF", esp:"AUTOMOTRIZ", sec:"Sección B"},
-      {nie:"4113186", ape:"MARTÍNEZ RIVERA", nom:"ÁNGEL STEVEN", usr:"4113186@clases.edu.sv", pwd:"DHC812", esp:"AUTOMOTRIZ", sec:"Sección B"},
-      {nie:"19947929", ape:"MIRANDA VÁSQUEZ", nom:"EMERSON MANUEL", usr:"19947929@clases.edu.sv", pwd:"VN24VT", esp:"AUTOMOTRIZ", sec:"Sección B"},
-      {nie:"19984757", ape:"MORATAYA DOMÍNGUEZ", nom:"ALEXIA DAYANARA", usr:"19984757@clases.edu.sv", pwd:"WQL85N", esp:"AUTOMOTRIZ", sec:"Sección B"},
-      {nie:"5100511", ape:"PÉREZ CHANTA", nom:"CHRISTOPHER AMÍLCAR", usr:"5100511@clases.edu.sv", pwd:"GZNTR1", esp:"AUTOMOTRIZ", sec:"Sección B"},
-      {nie:"19703776", ape:"PORTILLO DE LA CRUZ", nom:"CARLOS GEOVANNY", usr:"19703776@clases.edu.sv", pwd:"04F8XQ", esp:"AUTOMOTRIZ", sec:"Sección B"},
-      {nie:"19815642", ape:"RAMOS COCA", nom:"ÁNGEL GUSTAVO", usr:"19815642@clases.edu.sv", pwd:"RZHV7G", esp:"AUTOMOTRIZ", sec:"Sección B"},
-      {nie:"19988971", ape:"RODRÍGUEZ IRAHETA", nom:"JEFFERSON JOSUÉ", usr:"19988971@clases.edu.sv", pwd:"WUZK18", esp:"AUTOMOTRIZ", sec:"Sección B"},
-      {nie:"19816557", ape:"SORIANO MELGAR", nom:"MIGUEL ÁNGEL", usr:"19816557@clases.edu.sv", pwd:"S1AYD3", esp:"AUTOMOTRIZ", sec:"Sección B"},
-      {nie:"10206335", ape:"VÁSQUEZ MÉNDEZ", nom:"KEVIN RAFAEL", usr:"10206335@clases.edu.sv", pwd:"NKOGU5", esp:"AUTOMOTRIZ", sec:"Sección B"},
-      {nie:"20100401", ape:"VENTURA GUZMÁN", nom:"JAVIER OTONIEL", usr:"20100401@clases.edu.sv", pwd:"YEU4WS", esp:"AUTOMOTRIZ", sec:"Sección B"},
-      {nie:"19850375", ape:"ZARCEÑO CORNEJO", nom:"ELMER NOÉ", usr:"19850375@clases.edu.sv", pwd:"STW5QX", esp:"AUTOMOTRIZ", sec:"Sección B"},
-
-      // Mantenimiento Automotriz Sec C
-      {nie:"19817436", ape:"ALVARADO BARILLAS", nom:"JAVIER ENOC", usr:"19817436@clases.edu.sv", pwd:"S1VQSA", esp:"AUTOMOTRIZ", sec:"Sección C"},
-      {nie:"20256914", ape:"CABRERA RAMÍREZ", nom:"ERIKA LISSETH", usr:"20256914@clases.edu.sv", pwd:"ZK38HD", esp:"AUTOMOTRIZ", sec:"Sección C"},
-      {nie:"20005375", ape:"CHACÓN BARAHONA", nom:"DIEGO ENRIQUE", usr:"20005375@clases.edu.sv", pwd:"X9MLRQ", esp:"AUTOMOTRIZ", sec:"Sección C"},
-      {nie:"5359892", ape:"FERNÁNDEZ HENRÍQUEZ", nom:"MARÍA ERLINDA", usr:"5359892@clases.edu.sv", pwd:"HGWYMX", esp:"AUTOMOTRIZ", sec:"Sección C"},
-      {nie:"19994350", ape:"FLORES GUEVARA", nom:"MARVIN EDUARDO", usr:"19994350@clases.edu.sv", pwd:"X1H7K9", esp:"AUTOMOTRIZ", sec:"Sección C"},
-      {nie:"10192000", ape:"MARTÍNEZ MARÍN", nom:"MERARY ABIGAIL", usr:"10192000@clases.edu.sv", pwd:"NHWS1H", esp:"AUTOMOTRIZ", sec:"Sección C"},
-      {nie:"4094121", ape:"MEDINA GÓMEZ", nom:"JOSUÉ DEMETRIO", usr:"4094121@clases.edu.sv", pwd:"DG2RMP", esp:"AUTOMOTRIZ", sec:"Sección C"},
-      {nie:"19882694", ape:"MÉNDEZ FLORES", nom:"BRYAN CALED", usr:"19882694@clases.edu.sv", pwd:"TN8FGP", esp:"AUTOMOTRIZ", sec:"Sección C"},
-      {nie:"5020361", ape:"ORTIZ AGUILUZ", nom:"ÁNGEL DANIEL", usr:"5020361@clases.edu.sv", pwd:"GFKBT8", esp:"AUTOMOTRIZ", sec:"Sección C"},
-      {nie:"3558069", ape:"ORTIZ GÓMEZ", nom:"CARLOS ENRIQUE", usr:"3558069@clases.edu.sv", pwd:"CLRD75", esp:"AUTOMOTRIZ", sec:"Sección C"},
-      {nie:"4267783", ape:"ORTÍZ HERNÁNDEZ", nom:"ELMER ALEJANDRO", usr:"4267783@clases.edu.sv", pwd:"DVMA6V", esp:"AUTOMOTRIZ", sec:"Sección C"},
-      {nie:"129732995", ape:"PAREDES HERNÁNDEZ", nom:"BRYAN EDUARDO", usr:"129732995@clases.edu.sv", pwd:"ZXLVKG", esp:"AUTOMOTRIZ", sec:"Sección C"},
-      {nie:"4995457", ape:"RAMOS GARCÍA", nom:"HÉCTOR OMAR", usr:"4995457@clases.edu.sv", pwd:"G7C1CW", esp:"AUTOMOTRIZ", sec:"Sección C"},
-      {nie:"5579042", ape:"RIVERA CORADO", nom:"SANTIAGO DAVID", usr:"5579042@clases.edu.sv", pwd:"HYT2F3", esp:"AUTOMOTRIZ", sec:"Sección C"},
-      {nie:"19773544", ape:"RIVERA QUEZADA", nom:"ROBERTO ELÍAS", usr:"19773544@clases.edu.sv", pwd:"QHPYWJ", esp:"AUTOMOTRIZ", sec:"Sección C"},
-      {nie:"19883524", ape:"RODRÍGUEZ ALVARENGA", nom:"JESÚS LEONEL", usr:"19883524@clases.edu.sv", pwd:"TOMLGX", esp:"AUTOMOTRIZ", sec:"Sección C"},
-      {nie:"20051122", ape:"ROSALES SOLANO", nom:"MARVIN OSVALDO", usr:"20051122@clases.edu.sv", pwd:"XV7RN5", esp:"AUTOMOTRIZ", sec:"Sección C"},
-      {nie:"3265522", ape:"SÁNCHEZ CARRILLO", nom:"VÍCTOR LEVÍ", usr:"3265522@clases.edu.sv", pwd:"BWDNEY", esp:"AUTOMOTRIZ", sec:"Sección C"},
-      {nie:"5451442", ape:"SANTOS HERNÁNDEZ", nom:"BRANDON DE JESÚS", usr:"5451442@clases.edu.sv", pwd:"HLFTPE", esp:"AUTOMOTRIZ", sec:"Sección C"},
-      {nie:"5020365", ape:"UMAÑA MENDOZA", nom:"OSCAR ALFREDO", usr:"5020365@clases.edu.sv", pwd:"GFKMG9", esp:"AUTOMOTRIZ", sec:"Sección C"},
-      {nie:"5451935", ape:"VARGAS VARGAS", nom:"JONATHAN ELISEO", usr:"5451935@clases.edu.sv", pwd:"HM5G7T", esp:"AUTOMOTRIZ", sec:"Sección C"},
-      {nie:"4520047", ape:"VÁSQUEZ ÁNGEL", nom:"CHRISTIAN ALEXANDER", usr:"4520047@clases.edu.sv", pwd:"EB6SN1", esp:"AUTOMOTRIZ", sec:"Sección C"},
-      {nie:"5365129", ape:"VÁSQUEZ RECINOS", nom:"GUSTAVO ARIEL", usr:"5365129@clases.edu.sv", pwd:"HJTCH4", esp:"AUTOMOTRIZ", sec:"Sección C"},
-
-      // Mantenimiento Automotriz Sec D
-      {nie:"5451971", ape:"ALVARADO RECINOS", nom:"CRISTOPHER STANLEY", usr:"5451971@clases.edu.sv", pwd:"HM7NQA", esp:"AUTOMOTRIZ", sec:"Sección D"},
-      {nie:"6133771", ape:"ARCE HERNÁNDEZ", nom:"BRYAN ALEXIS", usr:"6133771@clases.edu.sv", pwd:"KBPV1R", esp:"AUTOMOTRIZ", sec:"Sección D"},
-      {nie:"5717382", ape:"AVELAR PINEDA", nom:"ANDRÉS EMANUEL", usr:"5717382@clases.edu.sv", pwd:"J99H9J", esp:"AUTOMOTRIZ", sec:"Sección D"},
-      {nie:"2891605", ape:"BARAHONA ANAYA", nom:"DAVID ALBERTO", usr:"2891605@clases.edu.sv", pwd:"ATD8C7", esp:"AUTOMOTRIZ", sec:"Sección D"},
-      {nie:"19872110", ape:"CASTILLO PAREDES", nom:"YAHIR ERNESTO", usr:"19872110@clases.edu.sv", pwd:"TCRK8K", esp:"AUTOMOTRIZ", sec:"Sección D"},
-      {nie:"2891619", ape:"CHÁVEZ PANΑΜΕΝΟ", nom:"JOSUÉ DANIEL", usr:"2891619@clases.edu.sv", pwd:"ATFJ3X", esp:"AUTOMOTRIZ", sec:"Sección D"},
-      {nie:"19795191", ape:"FUENTES CASTRO", nom:"SAMUEL ALBERTO", usr:"19795191@clases.edu.sv", pwd:"RBGA9Q", esp:"AUTOMOTRIZ", sec:"Sección D"},
-      {nie:"6799185", ape:"GARCÍA GUZMÁN", nom:"DIEGO ALEXANDER", usr:"6799185@clases.edu.sv", pwd:"LUA1ZY", esp:"AUTOMOTRIZ", sec:"Sección D"},
-      {nie:"4660223", ape:"GARCÍA HERNÁNDEZ", nom:"MOISÉS ADONAY", usr:"4660223@clases.edu.sv", pwd:"F1P6WB", esp:"AUTOMOTRIZ", sec:"Sección D"},
-      {nie:"3249840", ape:"HERNÁNDEZ GARCÍA", nom:"JOSUÉ DAVID", usr:"3249840@clases.edu.sv", pwd:"BU1MQS", esp:"AUTOMOTRIZ", sec:"Sección D"},
-      {nie:"4839806", ape:"LÓPEZ RIVERA", nom:"TIRSA IDANΙΑ", usr:"4839806@clases.edu.sv", pwd:"FHB3BU", esp:"AUTOMOTRIZ", sec:"Sección D"},
-      {nie:"7119093", ape:"MÉNDEZ AZMITIA", nom:"SAMUEL ERNESTO", usr:"7119093@clases.edu.sv", pwd:"MT1LN6", esp:"AUTOMOTRIZ", sec:"Sección D"},
-      {nie:"5100632", ape:"MIRANDA SANTOS", nom:"CARLOS MISAEL", usr:"5100632@clases.edu.sv", pwd:"GZR9NP", esp:"AUTOMOTRIZ", sec:"Sección D"},
-      {nie:"20294869", ape:"ORTÍZ GÓMEZ", nom:"CHRISTIAN ALEXIS", usr:"20294869@clases.edu.sv", pwd:"ZQ7VXJ", esp:"AUTOMOTRIZ", sec:"Sección D"},
-      {nie:"6134568", ape:"ORTIZ QUINTANILLA", nom:"JONATHAN SAÚL", usr:"6134568@clases.edu.sv", pwd:"KCMCTD", esp:"AUTOMOTRIZ", sec:"Sección D"},
-      {nie:"19886661", ape:"PAIZ VÁSQUEZ", nom:"ELVIRA LIBERTAD", usr:"19886661@clases.edu.sv", pwd:"TSCJZC", esp:"AUTOMOTRIZ", sec:"Sección D"},
-      {nie:"4658878", ape:"PEÑA RAMOS", nom:"MATEO ARIEL", usr:"4658878@clases.edu.sv", pwd:"EUU1MG", esp:"AUTOMOTRIZ", sec:"Sección D"},
-      {nie:"6047347", ape:"RAMÍREZ FLORES", nom:"HENRY ISRAEL", usr:"6047347@clases.edu.sv", pwd:"K2LF1H", esp:"AUTOMOTRIZ", sec:"Sección D"},
-      {nie:"3195521", ape:"RIVAS CHÁVEZ", nom:"KATHERINE YAMILETH", usr:"3195521@clases.edu.sv", pwd:"BN4AYM", esp:"AUTOMOTRIZ", sec:"Sección D"},
-      {nie:"3716531", ape:"RIVAS RIVAS", nom:"WILBER VLADIMIR", usr:"3716531@clases.edu.sv", pwd:"D1ZW57", esp:"AUTOMOTRIZ", sec:"Sección D"},
-      {nie:"7321496", ape:"ROJAS CRUZ", nom:"JONATHAN ERNESTO", usr:"7321496@clases.edu.sv", pwd:"N7JNZ1", esp:"AUTOMOTRIZ", sec:"Sección D"},
-
-      // Mantenimiento Automotriz Sec E
-      {nie:"19800449", ape:"BERMÚDEZ CRUZ", nom:"KEIRY EUNICE", usr:"19800449@clases.edu.sv", pwd:"RJ3KF5", esp:"AUTOMOTRIZ", sec:"Sección E"},
-      {nie:"4653019", ape:"CAMPOS MANCÍA", nom:"JONATHAN STEEVEN", usr:"4653019@clases.edu.sv", pwd:"EFAQBS", esp:"AUTOMOTRIZ", sec:"Sección E"},
-      {nie:"20159104", ape:"CAÑAS SANTOS", nom:"GERMÁN ALEXANDER", usr:"20159104@clases.edu.sv", pwd:"Z7NNCD", esp:"AUTOMOTRIZ", sec:"Sección E"},
-      {nie:"6410865", ape:"CERÓN HERNÁNDEZ", nom:"DANIEL EDUARDO", usr:"6410865@clases.edu.sv", pwd:"KW8W7E", esp:"AUTOMOTRIZ", sec:"Sección E"},
-      {nie:"19952826", ape:"CISNEROS ABARCA", nom:"BRYAN STANLEY", usr:"19952826@clases.edu.sv", pwd:"VRXKEV", esp:"AUTOMOTRIZ", sec:"Sección E"},
-      {nie:"5031723", ape:"DE LEÓN ARUCHA", nom:"SALVADOR ANTONIO", usr:"5031723@clases.edu.sv", pwd:"GLMKB2", esp:"AUTOMOTRIZ", sec:"Sección E"},
-      {nie:"19883727", ape:"GÓMEZ DURÁN", nom:"ELMER DANIEL", usr:"19883727@clases.edu.sv", pwd:"TOWJ5J", esp:"AUTOMOTRIZ", sec:"Sección E"},
-      {nie:"3982086", ape:"GRACIAS GARCÍA", nom:"ULISES BENJAMÍN", usr:"3982086@clases.edu.sv", pwd:"DB49D1", esp:"AUTOMOTRIZ", sec:"Sección E"},
-      {nie:"4213032", ape:"HERNÁNDEZ GUTIÉRREZ", nom:"MIGUEL IGNACIO", usr:"4213032@clases.edu.sv", pwd:"DQ88WH", esp:"AUTOMOTRIZ", sec:"Sección E"},
-      {nie:"19916123", ape:"LÓPEZ LEONARDO", nom:"BRANDON OSWALDO", usr:"19916123@clases.edu.sv", pwd:"UN42H9", esp:"AUTOMOTRIZ", sec:"Sección E"},
-      {nie:"3561015", ape:"MARTÍNEZ RAMOS", nom:"RODRIGO VLADIMIR", usr:"3561015@clases.edu.sv", pwd:"CN198V", esp:"AUTOMOTRIZ", sec:"Sección E"},
-      {nie:"4995039", ape:"NAVAS LARA", nom:"CHRISTIAN REINALDO", usr:"4995039@clases.edu.sv", pwd:"G74VWR", esp:"AUTOMOTRIZ", sec:"Sección E"},
-      {nie:"5012427", ape:"NÚÑEZ PALACIOS", nom:"JUSTIN ENRIQUE", usr:"5012427@clases.edu.sv", pwd:"GCZUJF", esp:"AUTOMOTRIZ", sec:"Sección E"},
-      {nie:"6652769", ape:"OCHOA AGUILAR", nom:"FRANCISCO ALONSO", usr:"6652769@clases.edu.sv", pwd:"LEU4RR", esp:"AUTOMOTRIZ", sec:"Sección E"},
-      {nie:"5012952", ape:"ORELLANA NAVAS", nom:"JONATHAN DANIEL", usr:"5012952@clases.edu.sv", pwd:"GE4BOV", esp:"AUTOMOTRIZ", sec:"Sección E"},
-      {nie:"19787948", ape:"RAMOS LEIVA", nom:"SUSANA DE LOS ÁNGELES", usr:"19787948@clases.edu.sv", pwd:"R2MRKY", esp:"AUTOMOTRIZ", sec:"Sección E"},
-      {nie:"4658375", ape:"RIVERA PAIZ", nom:"RICARDO JAVIER", usr:"4658375@clases.edu.sv", pwd:"ES6FEV", esp:"AUTOMOTRIZ", sec:"Sección E"},
-      {nie:"2891298", ape:"URÍAS HERNÁNDEZ", nom:"JOSÉ ALFREDO", usr:"2891298@clases.edu.sv", pwd:"AT5P52", esp:"AUTOMOTRIZ", sec:"Sección E"},
-      {nie:"7360537", ape:"VÁSQUEZ ORTIZ", nom:"JONATHAN HERIBERTO", usr:"7360537@clases.edu.sv", pwd:"N9LSXU", esp:"AUTOMOTRIZ", sec:"Sección E"},
-      {nie:"20165164", ape:"VENTURA CHÁVEZ", nom:"IKER D' ALESSANDRO", usr:"20165164@clases.edu.sv", pwd:"ZBBD47", esp:"AUTOMOTRIZ", sec:"Sección E"},
-      {nie:"19732255", ape:"VIVAS SORIANO", nom:"JULIO EDUARDO", usr:"19732255@clases.edu.sv", pwd:"OXH7V5", esp:"AUTOMOTRIZ", sec:"Sección E"},
-
-      // Mantenimiento Automotriz Sec F
-      {nie:"19967019", ape:"BENÍTEZ RAMÍREZ", nom:"JORGE HUMBERTO", usr:"19967019@clases.edu.sv", pwd:"W56CZ2", esp:"AUTOMOTRIZ", sec:"Sección F"},
-      {nie:"3714363", ape:"COLINDRES SILVA", nom:"ANDY STEVEN", usr:"3714363@clases.edu.sv", pwd:"CZQHNK", esp:"AUTOMOTRIZ", sec:"Sección F"},
-      {nie:"20136058", ape:"CRUZ MENDOZA", nom:"KEVIN GEOVANNI", usr:"20136058@clases.edu.sv", pwd:"YUYWBQ", esp:"AUTOMOTRIZ", sec:"Sección F"},
-      {nie:"20147141", ape:"DE LA O MONTOYA", nom:"EDWIN MAURICIO", usr:"20147141@clases.edu.sv", pwd:"Z1T1NP", esp:"AUTOMOTRIZ", sec:"Sección F"},
-      {nie:"2748123", ape:"FUENTES CARBAJAL", nom:"MOISÉS ORLANDO", usr:"2748123@clases.edu.sv", pwd:"AM1W56", esp:"AUTOMOTRIZ", sec:"Sección F"},
-      {nie:"19849235", ape:"GONZÁLEZ SAAVEDRA", nom:"ALEXIA GUADALUPE", usr:"19849235@clases.edu.sv", pwd:"SSXM3K", esp:"AUTOMOTRIZ", sec:"Sección F"},
-      {nie:"5784128", ape:"HENRÍQUEZ GUEVARA", nom:"JONATHAN ALEXANDER", usr:"5784128@clases.edu.sv", pwd:"JDAY6R", esp:"AUTOMOTRIZ", sec:"Sección F"},
-      {nie:"4961490", ape:"HERNÁNDEZ LÓPEZ", nom:"CRISTIAN ALEJANDRO", usr:"4961490@clases.edu.sv", pwd:"FWRPQJ", esp:"AUTOMOTRIZ", sec:"Sección F"},
-      {nie:"4801493", ape:"HERRERA LEON", nom:"KATHERINE EUNICE", usr:"4801493@clases.edu.sv", pwd:"FCQH8T", esp:"AUTOMOTRIZ", sec:"Sección F"},
-      {nie:"6654319", ape:"JORGE DEODANES", nom:"OSCAR ARMANDO", usr:"6654319@clases.edu.sv", pwd:"LG81T5", esp:"AUTOMOTRIZ", sec:"Sección F"},
-      {nie:"5012405", ape:"JUÁREZ SÁNCHEZ", nom:"CLAUDIA RAQUEL", usr:"5012405@clases.edu.sv", pwd:"GCTQ3R", esp:"AUTOMOTRIZ", sec:"Sección F"},
-      {nie:"19981638", ape:"JUAREZ VASQUEZ", nom:"JARED ABIU", usr:"19981638@clases.edu.sv", pwd:"WN8MYK", esp:"AUTOMOTRIZ", sec:"Sección F"},
-      {nie:"4994001", ape:"LÓPEZ MEJÍA", nom:"LEVÍ EZEQUIEL", usr:"4994001@clases.edu.sv", pwd:"G6CVHA", esp:"AUTOMOTRIZ", sec:"Sección F"},
-      {nie:"19787060", ape:"MARTÍNEZ MENJÍVAR", nom:"BRANDON ALBERTO", usr:"19787060@clases.edu.sv", pwd:"R1AY7E", esp:"AUTOMOTRIZ", sec:"Sección F"},
-      {nie:"5304692", ape:"MEDRANO QUINTANILLA", nom:"WILBER ULISES", usr:"5304692@clases.edu.sv", pwd:"HBH7QH", esp:"AUTOMOTRIZ", sec:"Sección F"},
-      {nie:"19999525", ape:"MENJÍVAR VALLE", nom:"ANDRÉ JAVIER", usr:"19999525@clases.edu.sv", pwd:"X4RBC2", esp:"AUTOMOTRIZ", sec:"Sección F"},
-      {nie:"19810608", ape:"MORALES", nom:"JOSUÉ CALEB", usr:"19810608@clases.edu.sv", pwd:"RTTBNM", esp:"AUTOMOTRIZ", sec:"Sección F"},
-      {nie:"19806998", ape:"MORÁN GUERRA", nom:"ÁNGEL ADALBERTO", usr:"19806998@clases.edu.sv", pwd:"RPPJ7X", esp:"AUTOMOTRIZ", sec:"Sección F"},
-      {nie:"2936086", ape:"ORTIZ ANDRADE", nom:"DANIEL ALEJANDRO", usr:"2936086@clases.edu.sv", pwd:"AXLUC9", esp:"AUTOMOTRIZ", sec:"Sección F"},
-      {nie:"19707082", ape:"PÉREZ AGUIRRE", nom:"LÁZARO RAFAEL", usr:"19707082@clases.edu.sv", pwd:"05MGB5", esp:"AUTOMOTRIZ", sec:"Sección F"},
-      {nie:"6301211", ape:"ROJAS MARTÍNEZ", nom:"ANDY STEVEN", usr:"6301211@clases.edu.sv", pwd:"KJJDSF", esp:"AUTOMOTRIZ", sec:"Sección F"},
-      {nie:"19981719", ape:"TRINIDAD CAMPOS", nom:"EDWIN ABRAHAM", usr:"19981719@clases.edu.sv", pwd:"WNJO9V", esp:"AUTOMOTRIZ", sec:"Sección F"},
-      {nie:"5827537", ape:"VENTURA MARTÍNEZ", nom:"EDISON BENJAMÍN", usr:"5827537@clases.edu.sv", pwd:"JMT4L6", esp:"AUTOMOTRIZ", sec:"Sección F"},
-
-      // Mantenimiento Automotriz Sec G
-      {nie:"5240258", ape:"APARICIO MARROQUÍN", nom:"JASON LEONEL", usr:"5240258@clases.edu.sv", pwd:"H8J5SO", esp:"AUTOMOTRIZ", sec:"Sección G"},
-      {nie:"4703193", ape:"APARICIO ZALDÍVAR", nom:"LUIS EDGARDO", usr:"4703193@clases.edu.sv", pwd:"F6LR8A", esp:"AUTOMOTRIZ", sec:"Sección G"},
-      {nie:"19884504", ape:"CALLES ROSALES", nom:"JOSUE GABRIEL", usr:"19884504@clases.edu.sv", pwd:"TQ71NA", esp:"AUTOMOTRIZ", sec:"Sección G"},
-      {nie:"4801809", ape:"CAMPOS FUENTES", nom:"MARIANA ALEXANDRA", usr:"4801809@clases.edu.sv", pwd:"FCYPT7", esp:"AUTOMOTRIZ", sec:"Sección G"},
-      {nie:"19787599", ape:"CARPIO CANALES", nom:"ELISEO VLADIMIR", usr:"19787599@clases.edu.sv", pwd:"R1VY5Q", esp:"AUTOMOTRIZ", sec:"Sección G"},
-      {nie:"20085302", ape:"CARRILLO VÁSQUEZ", nom:"EMERSON HUMBERTO", usr:"20085302@clases.edu.sv", pwd:"Y9LLOD", esp:"AUTOMOTRIZ", sec:"Sección G"},
-      {nie:"19933918", ape:"CARRILLO VÁSQUEZ", nom:"MELVIN SAMUEL", usr:"19933918@clases.edu.sv", pwd:"V5Z5KE", esp:"AUTOMOTRIZ", sec:"Sección G"},
-      {nie:"5718025", ape:"CHÁVEZ MOLINA", nom:"MICHAEL VLADIMIR", usr:"5718025@clases.edu.sv", pwd:"J9G4Q5", esp:"AUTOMOTRIZ", sec:"Sección G"},
-      {nie:"5544683", ape:"ESCOBAR AGUILAR", nom:"SALVADOR ALEXANDER", usr:"5544683@clases.edu.sv", pwd:"HXGUPV", esp:"AUTOMOTRIZ", sec:"Sección G"},
-      {nie:"20118709", ape:"FABIÁN NARVÁEZ", nom:"ROBERTO JOEL", usr:"20118709@clases.edu.sv", pwd:"YOE73D", esp:"AUTOMOTRIZ", sec:"Sección G"},
-      {nie:"19963996", ape:"GARCÍA CRUZ", nom:"AMILCAR GEOVANNI", usr:"19963996@clases.edu.sv", pwd:"W2XQG5", esp:"AUTOMOTRIZ", sec:"Sección G"},
-      {nie:"2955769", ape:"JUSTO PALACIOS", nom:"HÉCTOR NAÚN", usr:"2955769@clases.edu.sv", pwd:"AYQRHB", esp:"AUTOMOTRIZ", sec:"Sección G"},
-      {nie:"19714008", ape:"LÓPEZ VÁSQUEZ", nom:"JOSEPH YARED", usr:"19714008@clases.edu.sv", pwd:"OB7H6U", esp:"AUTOMOTRIZ", sec:"Sección G"},
-      {nie:"19709047", ape:"MARTINEZ LOPEZ", nom:"JOSUE ERNESTO", usr:"19709047@clases.edu.sv", pwd:"06MJ4G", esp:"AUTOMOTRIZ", sec:"Sección G"},
-      {nie:"9784097", ape:"MELARA CASTELLANOS", nom:"WILLIAM DAVID", usr:"9784097@clases.edu.sv", pwd:"QX23NC", esp:"AUTOMOTRIZ", sec:"Sección G"},
-      {nie:"6134555", ape:"MÉNDEZ GARCÍA", nom:"LUIS ALEJANDRO", usr:"6134555@clases.edu.sv", pwd:"KCHD6P", esp:"AUTOMOTRIZ", sec:"Sección G"},
-      {nie:"3040224", ape:"MÉNDEZ MORALES", nom:"JACQUELINE ROSMERY", usr:"3040224@clases.edu.sv", pwd:"B50250", esp:"AUTOMOTRIZ", sec:"Sección G"},
-      {nie:"6106944", ape:"MERLOS TURCIOS", nom:"LEVÍ ALEJANDRO", usr:"6106944@clases.edu.sv", pwd:"K956JS", esp:"AUTOMOTRIZ", sec:"Sección G"},
-      {nie:"4986317", ape:"MORALES LÓPEZ", nom:"ELMER ADONIS", usr:"4986317@clases.edu.sv", pwd:"G3NJB5", esp:"AUTOMOTRIZ", sec:"Sección G"},
-      {nie:"10206328", ape:"ORTIZ VÁSQUEZ", nom:"JAVIER ADONAY", usr:"10206328@clases.edu.sv", pwd:"NKKXKW", esp:"AUTOMOTRIZ", sec:"Sección G"},
-      {nie:"3715433", ape:"PEREZ MARTINEZ", nom:"JOSUE ARMANDO", usr:"3715433@clases.edu.sv", pwd:"D14KSX", esp:"AUTOMOTRIZ", sec:"Sección G"},
-      {nie:"6928972", ape:"ROJAS GONZÁLEZ", nom:"FRANCISCO JOEL", usr:"6928972@clases.edu.sv", pwd:"MGWBQV", esp:"AUTOMOTRIZ", sec:"Sección G"},
-
-      // Mantenimiento Automotriz Sec H
-      {nie:"4960211", ape:"AMAYA RIVERA", nom:"JEFFERSON ALEJANDRO", usr:"4960211@clases.edu.sv", pwd:"FW19NX", esp:"AUTOMOTRIZ", sec:"Sección H"},
-      {nie:"2353589", ape:"CRUZ SÁNCHEZ", nom:"EDWIN JOSUÉ", usr:"2353589@clases.edu.sv", pwd:"A4CPOU", esp:"AUTOMOTRIZ", sec:"Sección H"},
-      {nie:"20346295", ape:"GONZÁLEZ RIVERA", nom:"DERECK ISAÍAS", usr:"20346295@clases.edu.sv", pwd:"ZT5DMF", esp:"AUTOMOTRIZ", sec:"Sección H"},
-      {nie:"4995044", ape:"LÓPEZ LÓPEZ", nom:"CHRISTOPHER MATHEW", usr:"4995044@clases.edu.sv", pwd:"G75PLZ", esp:"AUTOMOTRIZ", sec:"Sección H"},
-      {nie:"19741527", ape:"MUNGUÍA CRUZ", nom:"JAIRO AMITAÍ", usr:"19741527@clases.edu.sv", pwd:"PAMAYJ", esp:"AUTOMOTRIZ", sec:"Sección H"},
-      {nie:"19752957", ape:"ORELLANA RIVERA", nom:"KEVIN ANTΟΝΙΟ", usr:"19752957@clases.edu.sv", pwd:"PPGHA2", esp:"AUTOMOTRIZ", sec:"Sección H"},
-      {nie:"5304501", ape:"ORELLANA SERRANO", nom:"MÁXIMO SAMUEL", usr:"5304501@clases.edu.sv", pwd:"HB6NDY", esp:"AUTOMOTRIZ", sec:"Sección H"},
-      {nie:"3037690", ape:"ORTIZ GONZÁLEZ", nom:"MANUEL ALEXANDER", usr:"3037690@clases.edu.sv", pwd:"B4C3GW", esp:"AUTOMOTRIZ", sec:"Sección H"},
-      {nie:"5359444", ape:"PARADA MARTINEZ", nom:"LEVI ESAU", usr:"5359444@clases.edu.sv", pwd:"HGPVDX", esp:"AUTOMOTRIZ", sec:"Sección H"},
-      {nie:"2689584", ape:"PÉREZ ZALDAÑA", nom:"ALEXIS FRANCISCO", usr:"2689584@clases.edu.sv", pwd:"AE4BRJ", esp:"AUTOMOTRIZ", sec:"Sección H"},
-      {nie:"19981690", ape:"QUINTANILLA FONSECA", nom:"DOUGLAS ESEQUIEL", usr:"19981690@clases.edu.sv", pwd:"WNG4OS", esp:"AUTOMOTRIZ", sec:"Sección H"},
-      {nie:"2296430", ape:"RAMÍREZ ALFARO", nom:"DANIELA ELIZABETH", usr:"2296430@clases.edu.sv", pwd:"A3OHJL", esp:"AUTOMOTRIZ", sec:"Sección H"},
-      {nie:"5359445", ape:"RAMÍREZ BARRIOS", nom:"NOÉ FERNANDO", usr:"5359445@clases.edu.sv", pwd:"HGQ8Y4", esp:"AUTOMOTRIZ", sec:"Sección H"},
-      {nie:"4770827", ape:"REDONDO CASTELLÓN", nom:"ALEXA DENISSE", usr:"4770827@clases.edu.sv", pwd:"FASZL8", esp:"AUTOMOTRIZ", sec:"Sección H"},
-      {nie:"19730035", ape:"REYES ORELLANA", nom:"FERNANDO AMILCAR", usr:"19730035@clases.edu.sv", pwd:"OUTU9N", esp:"AUTOMOTRIZ", sec:"Sección H"},
-      {nie:"19997358", ape:"REYNADO CHINCHILLA", nom:"LUIS ADONAY", usr:"19997358@clases.edu.sv", pwd:"X3UNP6", esp:"AUTOMOTRIZ", sec:"Sección H"},
-      {nie:"10775210", ape:"ROMERO ESCOBAR", nom:"JOSÉ DANIEL", usr:"10775210@clases.edu.sv", pwd:"NXTOYS", esp:"AUTOMOTRIZ", sec:"Sección H"},
-      {nie:"6536435", ape:"SALAZAR GÁLVEZ", nom:"KELVIN EDENILSON", usr:"6536435@clases.edu.sv", pwd:"L9UZQH", esp:"AUTOMOTRIZ", sec:"Sección H"},
-      {nie:"20116664", ape:"SANTOS RIVERA", nom:"MELVIN ALEXANDER", usr:"20116664@clases.edu.sv", pwd:"YNMD8G", esp:"AUTOMOTRIZ", sec:"Sección H"},
-      {nie:"5104053", ape:"SOSA MIRANDA", nom:"JOSÉ ALEXANDER", usr:"5104053@clases.edu.sv", pwd:"H3ZSBB", esp:"AUTOMOTRIZ", sec:"Sección H"},
-      {nie:"19710722", ape:"TEJADA ORTIZ", nom:"JEANCARLO ΑΝΤΟΝΙΟ", usr:"19710722@clases.edu.sv", pwd:"085QAJ", esp:"AUTOMOTRIZ", sec:"Sección H"},
-      {nie:"4840109", ape:"TOBAR MENJÍVAR", nom:"GERMÁN EDGARDO", usr:"4840109@clases.edu.sv", pwd:"FHJ3TH", esp:"AUTOMOTRIZ", sec:"Sección H"},
-      {nie:"19703718", ape:"VALLE GAVIDIA", nom:"STANLEY SAMUEL", usr:"19703718@clases.edu.sv", pwd:"048HYY", esp:"AUTOMOTRIZ", sec:"Sección H"},
-      {nie:"5544707", ape:"VELASQUEZ SEGURA", nom:"ESTEBAN RODRIGO", usr:"5544707@clases.edu.sv", pwd:"HXMMSG", esp:"AUTOMOTRIZ", sec:"Sección H"},
-
-      // Mantenimiento Automotriz Sec I
-      {nie:"19783088", ape:"CASTAÑEDA MENDOZA", nom:"BRYAN RICARDO", usr:"19783088@clases.edu.sv", pwd:"QVGHU6", esp:"AUTOMOTRIZ", sec:"Sección I"},
-      {nie:"20160459", ape:"COREAS HERNÁNDEZ", nom:"LUIS ENRIQUE", usr:"20160459@clases.edu.sv", pwd:"Z8PJ8J", esp:"AUTOMOTRIZ", sec:"Sección I"},
-      {nie:"4840116", ape:"DELGADO JACINTO", nom:"DIDIER ALEXIS", usr:"4840116@clases.edu.sv", pwd:"FHR9PD", esp:"AUTOMOTRIZ", sec:"Sección I"},
-      {nie:"4842026", ape:"García Marín", nom:"Samuel Efraín", usr:"4842026@clases.edu.sv", pwd:"FL9ZXK", esp:"AUTOMOTRIZ", sec:"Sección I"},
-      {nie:"19868972", ape:"GONZÁLEZ EVORA", nom:"MICHAEL EDENILSON", usr:"19868972@clases.edu.sv", pwd:"TA5BQV", esp:"AUTOMOTRIZ", sec:"Sección I"},
-      {nie:"20162494", ape:"HERNÁNDEZ CUELLAR", nom:"LEONEL ALEJANDRO", usr:"20162494@clases.edu.sv", pwd:"Z9U219", esp:"AUTOMOTRIZ", sec:"Sección I"},
-      {nie:"6867622", ape:"MELARA MELARA", nom:"GUILLERMO ENRIQUE", usr:"6867622@clases.edu.sv", pwd:"LYA6UX", esp:"AUTOMOTRIZ", sec:"Sección I"},
-      {nie:"6013941", ape:"MERINO CUÉLLAR", nom:"GUILLERMO JOSUÉ", usr:"6013941@clases.edu.sv", pwd:"JYCMZ1", esp:"AUTOMOTRIZ", sec:"Sección I"},
-      {nie:"3220966", ape:"ORTÍZ MIRANDA", nom:"JORGE OSMÍN", usr:"3220966@clases.edu.sv", pwd:"BPS2E8", esp:"AUTOMOTRIZ", sec:"Sección I"},
-      {nie:"19984783", ape:"RODRÍGUEZ MARTÍNEZ", nom:"JOSE YOVANY", usr:"19984783@clases.edu.sv", pwd:"WQLHH2", esp:"AUTOMOTRIZ", sec:"Sección I"},
-      {nie:"4438910", ape:"SANCHEZ ABARCA", nom:"RODRIGO ELEAZAR", usr:"4438910@clases.edu.sv", pwd:"E7CCZE", esp:"AUTOMOTRIZ", sec:"Sección I"},
-      {nie:"5024777", ape:"SIGARAN ARGUETA", nom:"MAXIMO YASIR", usr:"5024777@clases.edu.sv", pwd:"GJZHMK", esp:"AUTOMOTRIZ", sec:"Sección I"},
-      {nie:"5206206", ape:"VÁSQUEZ VÁSQUEZ", nom:"NATALÍ JAZMÍN", usr:"5206206@clases.edu.sv", pwd:"H7LMJN", esp:"AUTOMOTRIZ", sec:"Sección I"},
-      {nie:"19848458", ape:"VÁSQUEZ VELÁSQUEZ", nom:"JONATHAN ENRIQUE", usr:"19848458@clases.edu.sv", pwd:"SSEXOZ", esp:"AUTOMOTRIZ", sec:"Sección I"},
-      {nie:"19959421", ape:"VEGA DURÁN", nom:"SAMUEL ALEXANDER", usr:"19959421@clases.edu.sv", pwd:"VYK424", esp:"AUTOMOTRIZ", sec:"Sección I"},
-      {nie:"19733566", ape:"VELA GIRON", nom:"STEVEN GIOVANNI", usr:"19733566@clases.edu.sv", pwd:"OYUSQS", esp:"AUTOMOTRIZ", sec:"Sección I"},
-      {nie:"3486170", ape:"VENTURA MARTINEZ", nom:"CARLOS ALBERTO", usr:"3486170@clases.edu.sv", pwd:"CFYY2L", esp:"AUTOMOTRIZ", sec:"Sección I"},
-      {nie:"19908103", ape:"VILLANUEVA JÓVEL", nom:"ADONY ARNOLDO", usr:"19908103@clases.edu.sv", pwd:"UE97W4", esp:"AUTOMOTRIZ", sec:"Sección I"},
-
-      // Mecánica Industrial Sec A
-      {nie:"6410970", ape:"AGUILAR JORGE", nom:"MANUEL ERNESTO", usr:"6410970@clases.edu.sv", pwd:"KWGXQG", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"4801489", ape:"AMAYA ESCOBAR", nom:"LUCAS MATEO", usr:"4801489@clases.edu.sv", pwd:"FCQBWO", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"3876899", ape:"CARBAJAL VANEGAS", nom:"CARLOS FERNANDO", usr:"3876899@clases.edu.sv", pwd:"DAM11K", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"4030020", ape:"CHICAS VÁSQUEZ", nom:"JOSÉ DAVID", usr:"4030020@clases.edu.sv", pwd:"DDB9VT", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"5025576", ape:"CRUZ BONILLA", nom:"ANDREA MICHELLE", usr:"5025576@clases.edu.sv", pwd:"GK9F34", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"2407247", ape:"DIMAS MIRANDA", nom:"JOSUÉ DAVID", usr:"2407247@clases.edu.sv", pwd:"A4ZR8G", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"4798096", ape:"FUNES ROMERO", nom:"RODRIGO ALEXANDER", usr:"4798096@clases.edu.sv", pwd:"FBUH3J", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"6727549", ape:"GARCÍA MÁRMOL", nom:"KIMBERLY VANESSA", usr:"6727549@clases.edu.sv", pwd:"LO98HN", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"2689326", ape:"GONZALEZ RIVAS", nom:"DAVID JOSÉ", usr:"2689326@clases.edu.sv", pwd:"AD9QOU", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"4517435", ape:"HERNANDEZ CAMPOS", nom:"ENOC ALEXANDER", usr:"4517435@clases.edu.sv", pwd:"EA5904", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"19787405", ape:"HERNÁNDEZ LÓPEZ", nom:"ALEXIS FERNANDO", usr:"19787405@clases.edu.sv", pwd:"R1LMXX", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"19786076", ape:"LÓPEZ CORTEZ", nom:"ARAMIS ALEXANDER", usr:"19786076@clases.edu.sv", pwd:"QZUFK2", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"6473868", ape:"LÓPEZ FUENTES", nom:"OLIVER BENJAMÍN", usr:"6473868@clases.edu.sv", pwd:"L41166", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"19935857", ape:"LÓPEZ TORRES", nom:"JAVIER ALEJANDRO", usr:"19935857@clases.edu.sv", pwd:"V8BCXR", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"6537201", ape:"MARTINEZ LOPEZ", nom:"AXEL GEOVANNI", usr:"6537201@clases.edu.sv", pwd:"LAEEJ7", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"20092720", ape:"MARTÍNEZ NIETO", nom:"MOISÉS ELEAZAR", usr:"20092720@clases.edu.sv", pwd:"YC2W8R", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"20352301", ape:"MARTÍNEZ VÁSQUEZ", nom:"DAVID JOSUÉ", usr:"20352301@clases.edu.sv", pwd:"ZTJAJJ", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"6867634", ape:"MARTÍNEZ VÁSQUEZ", nom:"HENRI OSMARO", usr:"6867634@clases.edu.sv", pwd:"LYARAN", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"5532104", ape:"MEJÍA AYALA", nom:"ASHLEY ANNELISE", usr:"5532104@clases.edu.sv", pwd:"ΗΤΖΥ3Ο", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"7119090", ape:"MÉNDEZ AZMITIA", nom:"EDWIN ENMANUEL", usr:"7119090@clases.edu.sv", pwd:"MSZLH2", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"19800479", ape:"MENJIVAR CHAVEZ", nom:"CAMILA FERNANDA", usr:"19800479@clases.edu.sv", pwd:"RJA1ZK", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"19754866", ape:"OSORIO LARIOS", nom:"JONATHAN GABRIEL", usr:"19754866@clases.edu.sv", pwd:"PRJOVH", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"6931149", ape:"PALACIOS MELCHOR", nom:"CHRISTOPHER LEVI", usr:"6931149@clases.edu.sv", pwd:"MJ4KBF", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"4844867", ape:"PINEDA BENÍTEZ", nom:"DENIS ALEXANDER", usr:"4844867@clases.edu.sv", pwd:"FOFYOC", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"19971513", ape:"PONCE ESPIΝΟΖΑ", nom:"DANIEL ELISEO", usr:"19971513@clases.edu.sv", pwd:"W9G7LR", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"20258963", ape:"REINA RIVAS", nom:"JEREMÍAS ALEXANDER", usr:"20258963@clases.edu.sv", pwd:"ZL8OK4", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"6471853", ape:"RODRÍGUEZ LUNA", nom:"MOISÉS ISAÍAS", usr:"6471853@clases.edu.sv", pwd:"L26LMG", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"19906228", ape:"ROSALES RIVERA", nom:"ALEJANDRO ISAU", usr:"19906228@clases.edu.sv", pwd:"UCXLPU", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-      {nie:"19956367", ape:"TOSTA ORTIZ", nom:"LEANDRO JOSÉ", usr:"19956367@clases.edu.sv", pwd:"VVWNKG", esp:"MECÁNICA INDUSTRIAL", sec:"Sección A"},
-
-      // Sistemas Eléctricos Sec A
-      {nie:"4368643", ape:"ALBARRÁN ORANTES", nom:"KEVIN ALEXANDER", usr:"4368643@clases.edu.sv", pwd:"E356U1", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"4703319", ape:"ALFARO ALFARO", nom:"LUÍS ELISEO", usr:"4703319@clases.edu.sv", pwd:"F7BFT9", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"4842016", ape:"ALVARENGA OZUNA", nom:"ANDERSSON JAVIER", usr:"4842016@clases.edu.sv", pwd:"FL7YBL", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"3852378", ape:"ÁLVAREZ CORNEJO", nom:"KENNETH ALEJANDRO", usr:"3852378@clases.edu.sv", pwd:"D4B7HG", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"6559512", ape:"BLANCO JIMÉNEZ", nom:"GENESIS ALEXANDRA", usr:"6559512@clases.edu.sv", pwd:"LD2EUR", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"19752947", ape:"CERÓN HENRÍQUEZ", nom:"SAMUEL ALEXANDER", usr:"19752947@clases.edu.sv", pwd:"PPEXEL", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"3293848", ape:"DEODANES BACILIO", nom:"ESTEFANY ROCÍO", usr:"3293848@clases.edu.sv", pwd:"C2GMR8", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"19887083", ape:"ELÍAS RAMÍREZ", nom:"CECILIO ALESSANDRO", usr:"19887083@clases.edu.sv", pwd:"TSY4YM", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"3040295", ape:"ESCOBAR MÁRQUEZ", nom:"ANDERSON ALEXIS", usr:"3040295@clases.edu.sv", pwd:"B5V8QO", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"5944558", ape:"FLORES LANDAVERDE", nom:"OSCAR RENÉ", usr:"5944558@clases.edu.sv", pwd:"JX2AYZ", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"19897385", ape:"FLORES MORÁN", nom:"CHRISTOPHER ADONAY", usr:"19897385@clases.edu.sv", pwd:"U4W4QL", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"4987289", ape:"GARCÍA MEJÍA", nom:"HELEN ELIZABETH", usr:"4987289@clases.edu.sv", pwd:"G47KEX", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"19812159", ape:"GARCÍA OSORIO", nom:"ERICK ALEJANDRO", usr:"19812159@clases.edu.sv", pwd:"RVH720", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"3250783", ape:"LÓPEZ BOLAÑOS", nom:"CARLOS DANIEL", usr:"3250783@clases.edu.sv", pwd:"BUBRWS", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"19787339", ape:"LÓPEZ CAMPOS", nom:"EMMANUEL ERNESTO", usr:"19787339@clases.edu.sv", pwd:"R1HMGW", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"19787340", ape:"LÓPEZ CAMPOS", nom:"ENOC ELISEO", usr:"19787340@clases.edu.sv", pwd:"R1HTND", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"20162498", ape:"LÓPEZ CÓRDOVA", nom:"DIEGO ALONSO", usr:"20162498@clases.edu.sv", pwd:"Z9U609", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"6798254", ape:"LOVOS MONTOYA", nom:"HENRY MOISÉS", usr:"6798254@clases.edu.sv", pwd:"LTWFJL", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"19994450", ape:"MARTÍNEZ ESCOBAR", nom:"FRANCISCO ENMANUEL", usr:"19994450@clases.edu.sv", pwd:"X1JY18", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"4960200", ape:"MAYEN RIVAS", nom:"JONATHAN STEVEN", usr:"4960200@clases.edu.sv", pwd:"FVZQG5", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"4986286", ape:"MENJÍVAR MARTÍNEZ", nom:"JOSÉ EMANUEL", usr:"4986286@clases.edu.sv", pwd:"G3J4H5", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"6375656", ape:"MOLINA CASTRO", nom:"JOSÉ MAURICIO", usr:"6375656@clases.edu.sv", pwd:"KSVDKZ", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"4698877", ape:"MORALES CRUZ", nom:"SAMUEL ALEXANDER", usr:"4698877@clases.edu.sv", pwd:"F3LZFK", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"19964010", ape:"MORALES GRANDE", nom:"JOSTIN YUVINI", usr:"19964010@clases.edu.sv", pwd:"W2ZD7E", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"5365173", ape:"NAJARRO HERNÁNDEZ", nom:"ROBERTO ALEJANDRO", usr:"5365173@clases.edu.sv", pwd:"HJXXNE", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"19998056", ape:"NAVAS BELTRÁN", nom:"KEVIN SANTIAGO", usr:"19998056@clases.edu.sv", pwd:"X47935", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"2689609", ape:"PÉREZ CHINQUE", nom:"DAVID ELISEO", usr:"2689609@clases.edu.sv", pwd:"AE5FNC", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"4986085", ape:"RIVERA RAMOS", nom:"MARCOS ALEXANDER", usr:"4986085@clases.edu.sv", pwd:"G2XK73", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"19869063", ape:"RODAS PÉREZ", nom:"FRANKLIN ARMANDO", usr:"19869063@clases.edu.sv", pwd:"TA7R9G", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"19850091", ape:"RODRÍGUEZ DIMAS", nom:"JOSÉ EDUARDO", usr:"19850091@clases.edu.sv", pwd:"STF56G", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"5359971", ape:"RODRÍGUEZ HENRÍQUEZ", nom:"JOSÉ HUMBERTO", usr:"5359971@clases.edu.sv", pwd:"HHBWXT", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"2893960", ape:"SÁNCHEZ ASCENCIO", nom:"STEVEN GERARD", usr:"2893960@clases.edu.sv", pwd:"AV4V4M", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"5451286", ape:"SÁNCHEZ SÁNCHEZ", nom:"GERSON EDENILSON", usr:"5451286@clases.edu.sv", pwd:"HLDQMJ", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"19961488", ape:"VÁSQUEZ GARCÍA", nom:"JOSÉ SAMUEL", usr:"19961488@clases.edu.sv", pwd:"W1KSQ3", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"5684463", ape:"VIDALES RODRÍGUEZ", nom:"JOHANA MARISOL", usr:"5684463@clases.edu.sv", pwd:"J7QYX2", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"},
-      {nie:"19881860", ape:"VILLANUEVA MEJÍA", nom:"NAARA MADAI", usr:"19881860@clases.edu.sv", pwd:"TMF9CO", esp:"SISTEMAS ELÉCTRICOS", sec:"Sección A"}
+    // BASE DE DATOS DE ALUMNOS (Agrega los tuyos aquí)
+    const alumnos = [
+      {
+        nie: "19820421",
+        nombre: "JUAN CARLOS",
+        apellidos: "PEREZ GOMEZ",
+        especialidad: "Desarrollo de Software",
+        seccion: "3° A",
+        usuario: "19820421@clases.edu.sv",
+        password: "Avanzo2026.1"
+      }
     ];
 
-    // Elementos DOM
-    const searchForm = document.getElementById('searchForm');
-    const nieInput = document.getElementById('nieInput');
-    const initialState = document.getElementById('initialState');
-    const notFoundState = document.getElementById('notFoundState');
-    const credentialCard = document.getElementById('credentialCard');
-
-    // Elementos de la tarjeta
-    const resNombre = document.getElementById('resNombre');
-    const resApellidos = document.getElementById('resApellidos');
-    const resEspecialidad = document.getElementById('resEspecialidad');
-    const resSeccion = document.getElementById('resSeccion');
-    const resNie = document.getElementById('resNie');
-    const resUsuario = document.getElementById('resUsuario');
-    const resPassword = document.getElementById('resPassword');
-    const copyBtn = document.getElementById('copyBtn');
-    const copyText = document.getElementById('copyText');
-
-    let currentPassword = '';
-
-    // Manejar evento de búsqueda
-    searchForm.addEventListener('submit', function(e) {
+    document.getElementById('searchForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      const queryNIE = nieInput.value.trim();
+      const searchNie = document.getElementById('nieInput').value.trim();
+      
+      document.getElementById('initialState').classList.add('hidden');
+      document.getElementById('notFoundState').classList.add('hidden');
+      document.getElementById('credentialCard').classList.add('hidden');
 
-      if (!queryNIE) return;
+      const alumno = alumnos.find(a => a.nie === searchNie);
 
-      // Buscar coincidencia exacta por NIE
-      const found = db.find(student => student.nie === queryNIE);
-
-      // Ocultar todos los estados
-      initialState.classList.add('hidden');
-      notFoundState.classList.add('hidden');
-      credentialCard.classList.add('hidden');
-
-      if (found) {
-        // Llenar tarjeta individual
-        resNombre.textContent = found.nom;
-        resApellidos.textContent = found.ape;
-        resEspecialidad.textContent = found.esp;
-        resSeccion.textContent = found.sec;
-        resNie.textContent = found.nie;
-        resUsuario.textContent = found.usr;
-        resPassword.textContent = found.pwd;
-        currentPassword = found.pwd;
-
-        // Reset botón de copiar
-        copyText.textContent = 'Copiar';
-        copyBtn.className = 'bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white text-xs font-semibold px-3 py-1.5 rounded-md shadow-sm transition-all flex items-center gap-1.5';
-
-        // Mostrar tarjeta
-        credentialCard.classList.remove('hidden');
+      if (alumno) {
+        document.getElementById('resEspecialidad').textContent = alumno.especialidad;
+        document.getElementById('resNombre').textContent = alumno.nombre;
+        document.getElementById('resApellidos').textContent = alumno.apellidos;
+        document.getElementById('resSeccion').textContent = alumno.seccion;
+        document.getElementById('resNie').textContent = alumno.nie;
+        document.getElementById('resUsuario').textContent = alumno.usuario;
+        document.getElementById('resPassword').textContent = alumno.password;
+        document.getElementById('credentialCard').classList.remove('hidden');
       } else {
-        // Mostrar estado de no encontrado
-        notFoundState.classList.remove('hidden');
+        document.getElementById('notFoundState').classList.remove('hidden');
       }
     });
 
-    // Función de copiar clave
-    copyBtn.addEventListener('click', function() {
-      if (!currentPassword) return;
-
-      navigator.clipboard.writeText(currentPassword).then(() => {
-        copyText.textContent = '¡Copiado!';
-        copyBtn.className = 'bg-emerald-600 text-white text-xs font-semibold px-3 py-1.5 rounded-md shadow-sm transition-all flex items-center gap-1.5';
-
+    document.getElementById('copyBtn').addEventListener('click', function() {
+      const password = document.getElementById('resPassword').textContent;
+      navigator.clipboard.writeText(password).then(() => {
+        const copyText = document.getElementById('copyText');
+        const copyBtn = document.getElementById('copyBtn');
+        copyText.textContent = "¡Copiado!";
+        copyBtn.classList.replace('bg-indigo-600', 'bg-emerald-600');
         setTimeout(() => {
-          copyText.textContent = 'Copiar';
-          copyBtn.className = 'bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white text-xs font-semibold px-3 py-1.5 rounded-md shadow-sm transition-all flex items-center gap-1.5';
+          copyText.textContent = "Copiar";
+          copyBtn.classList.replace('bg-emerald-600', 'bg-indigo-600');
         }, 2000);
       });
     });
