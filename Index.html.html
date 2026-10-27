@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consulta de Credenciales AVANZO 2026 - INTI</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+  <!-- Header Institucional -->
+  <header class="bg-indigo-900 text-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-3">
+      <div class="flex items-center gap-3 text-center sm:text-left">
+        <div class="bg-white p-2 rounded-lg text-indigo-900 shadow-sm">
+          <i class="fa-solid fa-graduation-cap text-2xl"></i>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold tracking-tight">INTI - Credenciales AVANZO 2026</h1>
+          <p class="text-xs text-indigo-200">Instituto Nacional Técnico Industrial • San Salvador</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 bg-indigo-800/80 px-3 py-1.5 rounded-full text-xs font-medium border border-indigo-700">
+        <i class="fa-solid fa-shield-halved text-emerald-400"></i>
+        <span>Portal de Consulta Oficial</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenido Principal -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- Mensaje Toast de Notificación -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 border border-slate-700">
+      <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+      <span id="toast-msg" class="text-sm font-medium">Copiado al portapapeles</span>
+    </div>
+
+    <!-- Panel de Búsqueda y Filtros -->
+    <section class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-5 mb-6">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+        
+        <!-- Búsqueda Principal por NIE o Nombre -->
+        <div class="md:col-span-5 relative">
+          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Buscar Estudiante</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </span>
+            <input type="text" id="search-input" placeholder="Escribe NIE, Nombre o Apellido..." class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition-all shadow-sm">
+          </div>
+        </div>
+
+        <!-- Filtro Especialidad -->
+        <div class="md:col-span-4">
+          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Especialidad / Opción</label>
+          <select id="option-select" class="w-full py-2.5 px-3 bg-slate-50 border border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition-all shadow-sm">
+            <option value="">Todas las especialidades</option>
+            <option value="ELECTRÓNICA">Electrónica</option>
+            <option value="INFRA. TEC. Y SERVICIOS INF.">Infraestructura Tecnológica</option>
+            <option value="DESARROLLO DE SOFTWARE">Desarrollo de Software</option>
+            <option value="MANTENIMIENTO AUTOMOTRIZ">Mantenimiento Automotriz</option>
+            <option value="MECÁNICA INDUSTRIAL">Mecánica Industrial</option>
+            <option value="SISTEMAS ELÉCTRICOS Y ENERGIAS REN">Sistemas Eléctricos / Energías Renovables</option>
+          </select>
+        </div>
+
+        <!-- Filtro Sección -->
+        <div class="md:col-span-2">
+          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Sección</label>
+          <select id="section-select" class="w-full py-2.5 px-3 bg-slate-50 border border-slate-300 text-slate-900 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition-all shadow-sm">
+            <option value="">Todas</option>
+            <option value="A">Sección A</option>
+            <option value="B">Sección B</option>
+            <option value="C">Sección C</option>
+            <option value="D">Sección D</option>
+            <option value="E">Sección E</option>
+            <option value="F">Sección F</option>
+            <option value="G">Sección G</option>
+            <option value="H">Sección H</option>
+            <option value="I">Sección I</option>
+          </select>
+        </div>
+
+        <!-- Botón Limpiar -->
+        <div class="md:col-span-1 flex items-end">
+          <button id="btn-reset" title="Limpiar filtros" class="w-full py-2.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-600 font-medium rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-sm border border-slate-300">
+            <i class="fa-solid fa-rotate-left"></i>
+            <span class="md:hidden">Limpiar</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Barra de Resumen e Indicador de Resultados -->
+      <div class="mt-4 pt-4 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-2">
+        <div>
+          Mostrando <span id="results-count" class="font-bold text-indigo-700 text-sm">222</span> de <span class="font-semibold text-slate-700">222</span> estudiantes cargados.
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-700 font-medium">
+            <i class="fa-regular fa-clock"></i> Prueba: 28 y 29 de Octubre 2026
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Listado / Grilla de Tarjetas de Estudiantes -->
+    <section id="students-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <!-- Tarjetas generadas dinámicamente mediante JS -->
+    </section>
+
+    <!-- Estado Vacío (Sin Resultados) -->
+    <div id="no-results" class="hidden text-center py-16 bg-white rounded-2xl border border-dashed border-slate-300 mt-4">
+      <div class="w-16 h-16 bg-indigo-50 text-indigo-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+        <i class="fa-solid fa-user-slash"></i>
+      </div>
+      <h3 class="text-base font-bold text-slate-800">No se encontraron estudiantes</h3>
+      <p class="text-xs text-slate-500 mt-1 max-w-md mx-auto">Verifica el número de NIE, los nombres o restablece los filtros de búsqueda.</p>
+      <button onclick="resetFilters()" class="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-lg shadow-sm transition-all">
+        <i class="fa-solid fa-rotate-left"></i> Restablecer Filtros
+      </button>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 mt-auto py-4">
+    <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 flex flex-col sm:flex-row justify-between items-center gap-2">
+      <p>© 2026 Instituto Nacional Técnico Industrial (INTI). Uso Exclusivo Educativo.</p>
+      <p class="text-slate-400">Plataforma MINED: <a href="https://evaluaciones.mined.gob.sv" target="_blank" class="text-indigo-600 hover:underline">evaluaciones.mined.gob.sv</a></p>
+    </div>
+  </footer>
+
+  <!-- Lógica JavaScript y Base de Datos Completa de los 222 Estudiantes -->
+  <script>
+    // Base de datos estructurada directamente desde el PDF oficial
+    const rawStudentsData = [
+      // Pág 1: Electrónica A (18)
+      [19820421, "ARÉVALO LÓPEZ", "EDGAR JOSUÉ", "19820421@clases.edu.sv", "S4WG15", "ELECTRÓNICA", "A"],
+      [19820437, "ARÉVALO LÓPEZ", "SAMUEL ISAÍ", "19820437@clases.edu.sv", "S4XW2U", "ELECTRÓNICA", "A"],
+      [19703680, "BARRIENTOS VÁSQUEZ", "ANDREA SARAÍ", "19703680@clases.edu.sv", "043ZD5", "ELECTRÓNICA", "A"],
+      [6078150, "CANDELARIO", "JONATHAN ESTUARDO", "6078150@clases.edu.sv", "K81QPZ", "ELECTRÓNICA", "A"],
+      [7281499, "CRUZ GRANADOS", "CARLOS ALBERTO", "7281499@clases.edu.sv", "N18KG8", "ELECTRÓNICA", "A"],
+      [10276257, "CRUZ REYES", "JOSÉ DANIEL", "10276257@clases.edu.sv", "NSWYRG", "ELECTRÓNICA", "A"],
+      [4211992, "GONZÁLEZ LÓPEZ", "JAZAEL ALFONSO", "4211992@clases.edu.sv", "DPGJN8", "ELECTRÓNICA", "A"],
+      [4840327, "HERNÁNDEZ RIVAS", "NATHALY ABIGAIL", "4840327@clases.edu.sv", "FJBCMV", "ELECTRÓNICA", "A"],
+      [2689553, "MARTÍNEZ ROSALES", "JACQUELINE MICHELLE", "2689553@clases.edu.sv", "ADVSGO", "ELECTRÓNICA", "A"],
+      [2788448, "MEJÍA MARINERO", "FERNANDA SOFÍA", "2788448@clases.edu.sv", "AQNCUR", "ELECTRÓNICA", "A"],
+      [5104182, "MÉNDEZ VELASQUEZ", "BRYAN LEONEL", "5104182@clases.edu.sv", "H4AQW6", "ELECTRÓNICA", "A"],
+      [2772342, "MENJÍVAR CAMPOS", "DANIEL EDUARDO", "2772342@clases.edu.sv", "ANCS9W", "ELECTRÓNICA", "A"],
+      [4656349, "MUÑOZ HERNÁNDEZ", "ADILSON JAVIER", "4656349@clases.edu.sv", "EHQBNR", "ELECTRÓNICA", "A"],
+      [19783426, "OLIVARES MARTÍNEZ", "MAURICIO ALEJANDRO", "19783426@clases.edu.sv", "QW4TZL", "ELECTRÓNICA", "A"],
+      [19730617, "RAMÍREZ MARTÍNEZ", "KOBE ALEXANDER", "19730617@clases.edu.sv", "OV87CV", "ELECTRÓNICA", "A"],
+      [3269386, "RODRÍGUEZ GÁMEZ", "BENJAMÍN ALEXANDER", "3269386@clases.edu.sv", "C1KPYG", "ELECTRÓNICA", "A"],
+      [6375635, "SÁNCHEZ CASTRO", "VÍCTOR SAÚL", "6375635@clases.edu.sv", "KSTT31", "ELECTRÓNICA", "A"],
+      [4521238, "VALLES VÁSQUEZ", "CARLOS MANUEL", "4521238@clases.edu.sv", "EBXHUD", "ELECTRÓNICA", "A"],
+
+      // Pág 2: Electrónica B (18)
+      [19764386, "CASTILLO ROMERO", "JONATHAN FRANCISCO", "19764386@clases.edu.sv", "Q6D4AN", "ELECTRÓNICA", "B"],
+      [7196400, "CUÉLLAR DEODANES", "DIANA CAROLINA", "7196400@clases.edu.sv", "MY8X23", "ELECTRÓNICA", "B"],
+      [6372555, "GARCÍA LÓPEZ", "ERICK ADONAY", "6372555@clases.edu.sv", "KRMCUO", "ELECTRÓNICA", "B"],
+      [6932036, "GONZÁLEZ DURÁN", "MARCELA ALEJANDRA", "6932036@clases.edu.sv", "MJPE7H", "ELECTRÓNICA", "B"],
+      [3270378, "GONZÁLEZ VILLALOVO", "ADRIANA MICHELLE", "3270378@clases.edu.sv", "C24TO9", "ELECTRÓNICA", "B"],
+      [5012371, "HERNÁNDEZ CORTEZ", "DIEGO ALEXANDER", "5012371@clases.edu.sv", "GCNG2G", "ELECTRÓNICA", "B"],
+      [5717806, "HERNÁNDEZ TORRES", "JEFFERSON MOISÉS", "5717806@clases.edu.sv", "J9DJOR", "ELECTRÓNICA", "B"],
+      [6440256, "JORGE GUEVARA", "RAFAEL ALFONSO", "6440256@clases.edu.sv", "L1F40E", "ELECTRÓNICA", "B"],
+      [5012401, "LÓPEZ FLORES", "ÁNGEL OSWALDO", "5012401@clases.edu.sv", "GCTBRZ", "ELECTRÓNICA", "B"],
+      [3011020, "LÓPEZ LARA", "DANIEL ISAAC", "3011020@clases.edu.sv", "B3A770", "ELECTRÓNICA", "B"],
+      [4986283, "LÓPEZ OCHOA", "NICOLÁS ERNESTO", "4986283@clases.edu.sv", "G3HS38", "ELECTRÓNICA", "B"],
+      [7320924, "MANCÍA MARTÍNEZ", "DANIEL STEVEN", "7320924@clases.edu.sv", "N6PWQ1", "ELECTRÓNICA", "B"],
+      [19889625, "MARTÍNEZ GARAY", "RODRIGO ANDRÉS", "19889625@clases.edu.sv", "TVZPL3", "ELECTRÓNICA", "B"],
+      [19773692, "MIRANDA MÓNICO", "RAÚL VLADIMIR", "19773692@clases.edu.sv", "QHXJZW", "ELECTRÓNICA", "B"],
+      [3634247, "PÉREZ QUINTANILLA", "EDUARDO ABDIEL", "3634247@clases.edu.sv", "CTFFAT", "ELECTRÓNICA", "B"],
+      [7320943, "RIVAS CHICAS", "BRANDON SALOMÓN", "7320943@clases.edu.sv", "N6SKSZ", "ELECTRÓNICA", "B"],
+      [19800482, "SALAZAR MÉNDEZ", "GUSTAVO AΝΤΟΝΙO", "19800482@clases.edu.sv", "RJA5Y9", "ELECTRÓNICA", "B"],
+      [19807030, "SÁNCHEZ VENTURA", "ADRIAN ENRIQUE", "19807030@clases.edu.sv", "RPZWSC", "ELECTRÓNICA", "B"],
+
+      // Pág 3: Infraestructura Tecnológica A (21)
+      [19886436, "ALBANEZ GIRON", "PAMELA ALEXANDRA", "19886436@clases.edu.sv", "TS9BT3", "INFRA. TEC. Y SERVICIOS INF.", "A"],
+      [4473640, "ARGUETA GUARDADO", "ROMARIO ISRAEL", "4473640@clases.edu.sv", "E992CO", "INFRA. TEC. Y SERVICIOS INF.", "A"],
+      [2355154, "ARGUETA RIVERA", "HÉCTOR DANIEL", "2355154@clases.edu.sv", "A4FA2J", "INFRA. TEC. Y SERVICIOS INF.", "A"],
+      [20145757, "ÁVALOS HERNÁNDEZ", "SUAMY RAQUEL", "20145757@clases.edu.sv", "YZVF1J", "INFRA. TEC. Y SERVICIOS INF.", "A"],
+      [4472232, "CLAROS ASCENCIO", "JOSUE AARON", "4472232@clases.edu.sv", "E83M89", "INFRA. TEC. Y SERVICIOS INF.", "A"],
+      [7119109, "CORTÉZ CARDOZA", "EDWIN JAVIER", "7119109@clases.edu.sv", "MT5AB4", "INFRA. TEC. Y SERVICIOS INF.", "A"],
+      [6727949, "CRUZ SANTAMARÍA", "NOÉ ADRIÁN", "6727949@clases.edu.sv", "LOO3SW", "INFRA. TEC. Y SERVICIOS INF.", "A"],
+      [4267821, "DEODANES PÉREZ", "DINORA IVETH", "4267821@clases.edu.sv", "DVMOUD", "INFRA. TEC. Y SERVICIOS INF.", "A"],
+      [7091044, "ELIAS ORTIZ", "JAVIER ENRIQUE", "7091044@clases.edu.sv", "MNE3HL", "INFRA. TEC. Y SERVICIOS INF.", "A"],
+      [4658868, "FUENTES AQUIÁN", "KEVIN ALEXIS", "4658868@clases.edu.sv", "EURUWS", "INFRA. TEC. Y SERVICIOS INF.", "A"],
+      [4658492, "LÓPEZ MORATAYA", "MIGUEL ANGEL", "4658492@clases.edu.sv", "ESTJWP", "INFRA. TEC. Y SERVICIOS INF.", "A"],
+      [10273545, "MIRANDA VALENCIA", "BRANDON OLIVER", "10273545@clases.edu.sv", "NSDZH3", "INFRA. TEC. Y SERVICIOS INF.", "A"],
+      [3009494, "MORALES FLORES", "BALBINO CESAR", "3009494@clases.edu.sv", "B2PQJB", "INFRA. TEC. Y SERVICIOS INF.", "A"],
+      [19704189, "MORÁN ALVARADO", "JOSÉ FABRICIO", "19704189@clases.edu.sv", "04ΤΗΡΟ", "INFRA. TEC. Y SERVICIOS INF.", "A"],
+      [4658685, "PINEDA CRUZ", "MADELYN NATALI", "4658685@clases.edu.sv", "ETT44M", "INFRA. TEC. Y SERVICIOS INF.", "A"],
+      [2789291, "RIVERA RIVAS", "MATEO OTTONIEL", "2789291@clases.edu.sv", "AQVTQ9", "INFRA. TEC. Y SERVICIOS INF.", "A"],
+      [10206954, "RODRIGUEZ VEGA", "JOSUE VLADIMIR", "10206954@clases.edu.sv", "NKXC6Y", "INFRA. TEC. Y SERVICIOS INF.", "A"],
+      [3982114, "RUANO CRUZ", "GABRIELA DANAE", "3982114@clases.edu.sv", "DB9MDQ", "INFRA. TEC. Y SERVICIOS INF.", "A"],
+      [6411952, "SEGOVIA ΜΕΙΙΑ", "STEVEN GERARD", "6411952@clases.edu.sv", "KXHRCO", "INFRA. TEC. Y SERVICIOS INF.", "A"],
+      [4301731, "TREJO MARTÍNEZ", "TAMARA ESTHER", "4301731@clases.edu.sv", "DXTMMM", "INFRA. TEC. Y SERVICIOS INF.", "A"],
+      [6047255, "VÁSQUEZ MIRANDA", "DANIEL ELISEO", "6047255@clases.edu.sv", "K2KEQF", "INFRA. TEC. Y SERVICIOS INF.", "A"],
+
+      // Pág 4: Desarrollo de Software A (21)
+      [10261081, "AGUIRRE MALDONADO", "NELSON ALEXANDER", "10261081@clases.edu.sv", "NP1OBS", "DESARROLLO DE SOFTWARE", "A"],
+      [3161612, "CARRILLO FLORES", "NATALIA ESTEFANY", "3161612@clases.edu.sv", "BDRCC2", "DESARROLLO DE SOFTWARE", "A"],
+      [10481960, "CETINO BELTRÁN", "EDUARDO JOSÉ", "10481960@clases.edu.sv", "NWR94S", "DESARROLLO DE SOFTWARE", "A"],
+      [19995108, "CHOTO AMAYA", "CHRISTOPHER ALESSANDRO", "9995108@clases.edu.sv", "X27SHP", "DESARROLLO DE SOFTWARE", "A"],
+      [5304618, "COREAS ESCALANTE", "LESTER FERNANDO", "5304618@clases.edu.sv", "HB9AYW", "DESARROLLO DE SOFTWARE", "A"],
+      [19787264, "COTO HERNÁNDEZ", "IVANIA VANESSA", "19787264@clases.edu.sv", "R1FZTR", "DESARROLLO DE SOFTWARE", "A"],
+      [4657565, "DOMÍNGUEZ CALZADA", "CRISTIAN ALEXANDER", "4657565@clases.edu.sv", "EOAVVX", "DESARROLLO DE SOFTWARE", "A"],
+      [19954380, "FLORES RODRÍGUEZ", "RUBIDIA TAΤΙΑΝΑ", "19954380@clases.edu.sv", "VUB5ZN", "DESARROLLO DE SOFTWARE", "A"],
+      [3485966, "FUENTES VALDEZ", "MELANY PRÍSCILA", "3485966@clases.edu.sv", "CFTBQ7", "DESARROLLO DE SOFTWARE", "A"],
+      [19998723, "GIRÓN VILLALTA", "MARCELO AARÓN", "19998723@clases.edu.sv", "X4EJ1U", "DESARROLLO DE SOFTWARE", "A"],
+      [20289250, "MARTÍNEZ RAMOS", "WALTER ADONAY", "20289250@clases.edu.sv", "ZPYBMK", "DESARROLLO DE SOFTWARE", "A"],
+      [19890182, "MEDINA MARTÍNEZ", "MICHAEL ADONAY", "19890182@clases.edu.sv", "TX692M", "DESARROLLO DE SOFTWARE", "A"],
+      [4268926, "MÉNDEZ GARCÍA", "LILIANA ABIGAIL", "4268926@clases.edu.sv", "DWFXYY", "DESARROLLO DE SOFTWARE", "A"],
+      [5365118, "NAJARRO HERNÁNDEZ", "GENARO ALEXANDER", "5365118@clases.edu.sv", "HJR5WL", "DESARROLLO DE SOFTWARE", "A"],
+      [19802953, "PÉREZ CARMONA", "ERICK ELIEZER", "19802953@clases.edu.sv", "RLEH6L", "DESARROLLO DE SOFTWARE", "A"],
+      [19996874, "PÉREZ CARRILLO", "GUSTAVO ENRIQUE", "19996874@clases.edu.sv", "X3AWWE", "DESARROLLO DE SOFTWARE", "A"],
+      [20144126, "PÉREZ MARTÍNEZ", "LUISA YAMILETH", "20144126@clases.edu.sv", "YZ2LOP", "DESARROLLO DE SOFTWARE", "A"],
+      [6262905, "PÉREZ RAMÍREZ", "ERICK FERNANDO", "6262905@clases.edu.sv", "KFHM6K", "DESARROLLO DE SOFTWARE", "A"],
+      [19797410, "RAMOS RAMÍREZ", "DARLING ZARAHİ", "19797410@clases.edu.sv", "REB8BG", "DESARROLLO DE SOFTWARE", "A"],
+      [19884663, "RODAS ERRODAS", "JUSTIN ADONAY", "19884663@clases.edu.sv", "TQLWW2", "DESARROLLO DE SOFTWARE", "A"],
+      [19882727, "ZELADA MIRANDA", "JONATHAN STEVEN", "19882727@clases.edu.sv", "TNAW1L", "DESARROLLO DE SOFTWARE", "A"],
+
+      // Pág 5: Desarrollo de Software B (21)
+      [4957449, "ARTEAGA YGLESIAS", "ALFREDO DAGOBERTO", "4957449@clases.edu.sv", "FTXJ9Q", "DESARROLLO DE SOFTWARE", "B"],
+      [5365140, "CALDERÓN GONZÁLEZ", "BRANDON EMMANUEL", "5365140@clases.edu.sv", "HJVHZ8", "DESARROLLO DE SOFTWARE", "B"],
+      [19725633, "CRUZ ORELLANA", "GABRIELA IVETH", "19725633@clases.edu.sv", "OQCW3P", "DESARROLLO DE SOFTWARE", "B"],
+      [6867614, "CRUZ ROMERO", "JOSÉ ALEJANDRO", "6867614@clases.edu.sv", "LY8PSJ", "DESARROLLO DE SOFTWARE", "B"],
+      [20051391, "ELÍAS CHÁVEZ", "ISAI ERNESTO", "20051391@clases.edu.sv", "XVB2Y3", "DESARROLLO DE SOFTWARE", "B"],
+      [2955650, "GONZÁLEZ AYALA", "MICHAEL SAMUEL", "2955650@clases.edu.sv", "AYMQDK", "DESARROLLO DE SOFTWARE", "B"],
+      [3566110, "JACO GONZÁLEZ", "ALISON GISELLE", "3566110@clases.edu.sv", "CSLY8K", "DESARROLLO DE SOFTWARE", "B"],
+      [3555670, "MÁRQUEZ RIVAS", "MARCOS GUILLERMO", "3555670@clases.edu.sv", "CJSCUF", "DESARROLLO DE SOFTWARE", "B"],
+      [20159245, "MARTÍNEZ CAÑAS", "KEVIN OTONIEL", "20159245@clases.edu.sv", "Z7PFB2", "DESARROLLO DE SOFTWARE", "B"],
+      [3267288, "MARTÍNEZ CLAROS", "CRISTIAN EMANUEL", "3267288@clases.edu.sv", "BY3Z34", "DESARROLLO DE SOFTWARE", "B"],
+      [19999441, "MEJÍA MINERO", "OSCAR GABRIEL", "19999441@clases.edu.sv", "X4PZD5", "DESARROLLO DE SOFTWARE", "B"],
+      [3129902, "MÉNDEZ VALLE", "AMALIA CAROLINA", "3129902@clases.edu.sv", "BBNT8K", "DESARROLLO DE SOFTWARE", "B"],
+      [19996836, "ORELLANA SANTOS", "JOEL EDGARDO", "19996836@clases.edu.sv", "X37N3J", "DESARROLLO DE SOFTWARE", "B"],
+      [19795194, "PEÑA PÉREZ", "JONATHAN EDGARDO", "19795194@clases.edu.sv", "RBKQLE", "DESARROLLO DE SOFTWARE", "B"],
+      [19941451, "PRADO ESCOBAR", "DANIEL ANTΟΝΙO", "19941451@clases.edu.sv", "VGLBFE", "DESARROLLO DE SOFTWARE", "B"],
+      [3776115, "RAMÍREZ FLORES", "ANDRÉS ERNESTO", "3776115@clases.edu.sv", "D33Y8Q", "DESARROLLO DE SOFTWARE", "B"],
+      [6866815, "REYES LINARES", "NAHOMY ARELY", "6866815@clases.edu.sv", "LXBTMM", "DESARROLLO DE SOFTWARE", "B"],
+      [4213268, "RIVERA ROSALES", "DAVID ALBERTO", "4213268@clases.edu.sv", "DQJJQJ", "DESARROLLO DE SOFTWARE", "B"],
+      [20139864, "TORRES BELLOSO", "MARCELO ALESSANDRO", "20139864@clases.edu.sv", "YWY17R", "DESARROLLO DE SOFTWARE", "B"],
+      [19996967, "VÁSQUEZ PASCUAL", "JONATHAN ABINADAD", "19996967@clases.edu.sv", "X3JGB5", "DESARROLLO DE SOFTWARE", "B"],
+      [19714131, "ZETINO MONGE", "WALTER ELIEZER", "19714131@clases.edu.sv", "OBME3W", "DESARROLLO DE SOFTWARE", "B"],
+
+      // Pág 6: Mantenimiento Automotriz A (23)
+      [19802945, "ACEVEDO SÁNCHEZ", "LEVÍ EZEQUIEL", "19802945@clases.edu.sv", "RLDK1Q", "MANTENIMIENTO AUTOMOTRIZ", "A"],
+      [5616479, "AYALA BELTRÁN", "IRENE PAOLA", "5616479@clases.edu.sv", "J5L2JY", "MANTENIMIENTO AUTOMOTRIZ", "A"],
+      [19872786, "AYALA MANCÍA", "ANDERSON GUSTAVO", "19872786@clases.edu.sv", "TD9QPC", "MANTENIMIENTO AUTOMOTRIZ", "A"],
+      [19787263, "CARRANZA FUENTES", "SAMUEL ANΝΤΟΝΙO", "19787263@clases.edu.sv", "R1FUUM", "MANTENIMIENTO AUTOMOTRIZ", "A"],
+      [20143625, "CASTRO RODAS", "FERNANDO ISAÍAS", "20143625@clases.edu.sv", "YYD4ZU", "MANTENIMIENTO AUTOMOTRIZ", "A"],
+      [5544680, "CHÁVEZ PEÑA", "MARVIN EFRAIN", "5544680@clases.edu.sv", "HXFPJC", "MANTENIMIENTO AUTOMOTRIZ", "A"],
+      [7122680, "DÍAZ RODAS", "CARLOS DANIEL", "7122680@clases.edu.sv", "MVKEGT", "MANTENIMIENTO AUTOMOTRIZ", "A"],
+      [6658399, "FUNES ARQUIONI", "DAVID ENRIQUE", "6658399@clases.edu.sv", "LLJ586", "MANTENIMIENTO AUTOMOTRIZ", "A"],
+      [19725615, "HERNÁNDEZ CRUZ", "JONATHAN VLADIMIR", "19725615@clases.edu.sv", "OQB4H9", "MANTENIMIENTO AUTOMOTRIZ", "A"],
+      [20165098, "JORGE PÈÑA", "GABRIEL ALEXANDER", "20165098@clases.edu.sv", "ZB75M6", "MANTENIMIENTO AUTOMOTRIZ", "A"],
+      [2465110, "LARA MÁRTIR", "ERICK ALEXANDER", "2465110@clases.edu.sv", "A5F85W", "MANTENIMIENTO AUTOMOTRIZ", "A"],
+      [19725602, "MÁRMOL MARTÍNEZ", "JOSÉ EDENILSON", "19725602@clases.edu.sv", "OQ98JT", "MANTENIMIENTO AUTOMOTRIZ", "A"],
+      [4658672, "MÉNDEZ DÍAZ", "ISAAC BENJAMÍN", "4658672@clases.edu.sv", "ETQ62C", "MANTENIMIENTO AUTOMOTRIZ", "A"],
+      [4958346, "MONTANO HENRÍQUEZ", "AMNER JEFFERSON", "4958346@clases.edu.sv", "FUSRGS", "MANTENIMIENTO AUTOMOTRIZ", "A"],
+      [19858019, "MORALES BRACAMONTE", "JUAN JOSÉ", "19858019@clases.edu.sv", "SZAVCC", "MANTENIMIENTO AUTOMOTRIZ", "A"],
+      [3876895, "MORÁN VÁSQUEZ", "EDWARD ISAAC", "3876895@clases.edu.sv", "DAKUTP", "MANTENIMIENTO AUTOMOTRIZ", "A"],
+      [20118777, "PÉREZ ANTILLÓN", "JAIRO AMILCAR", "20118777@clases.edu.sv", "YOJFDE", "MANTENIMIENTO AUTOMOTRIZ", "A"],
+      [3853714, "PÉREZ DÍAZ", "EMANUEL ISAÍ", "3853714@clases.edu.sv", "D6NNT8", "MANTENIMIENTO AUTOMOTRIZ", "A"],
+      [20082783, "PINEDA RIVERA", "MIGUEL ALEJANDRO", "20082783@clases.edu.sv", "Y8CSN7", "MANTENIMIENTO AUTOMOTRIZ", "A"],
+      [4659321, "RENDEROS CRUZ", "JONATHAN SAMUEL", "4659321@clases.edu.sv", "EWZYG2", "MANTENIMIENTO AUTOMOTRIZ", "A"],
+      [3714366, "RIVERA CHÁVEZ", "EDWAR ALEXIS", "3714366@clases.edu.sv", "CZR8UC", "MANTENIMIENTO AUTOMOTRIZ", "A"],
+      [19781856, "SERPAS RIVAS", "MANUEL ALEXANDER", "19781856@clases.edu.sv", "QUYO61", "MANTENIMIENTO AUTOMOTRIZ", "A"],
+      [2748082, "VÁSQUEZ LÓPEZ", "JONATHAN ELIEZER", "2748082@clases.edu.sv", "ALWVPO", "MANTENIMIENTO AUTOMOTRIZ", "A"],
+
+      // Pág 7: Mantenimiento Automotriz B (21)
+      [10206318, "ACOSTA ORTIZ", "MARIO ENRIQUE", "10206318@clases.edu.sv", "NKKAGP", "MANTENIMIENTO AUTOMOTRIZ", "B"],
+      [3220941, "ANDRÉS VÁSQUEZ", "DARWIN ADONAY", "3220941@clases.edu.sv", "BPRDEP", "MANTENIMIENTO AUTOMOTRIZ", "B"],
+      [5024789, "CAMPOS DEL CID", "ASHLEY NICOLE", "5024789@clases.edu.sv", "GJZVCL", "MANTENIMIENTO AUTOMOTRIZ", "B"],
+      [5359958, "CASTILLO ROMERO", "NELSON MAURICIO", "5359958@clases.edu.sv", "HH6RX5", "MANTENIMIENTO AUTOMOTRIZ", "B"],
+      [4985416, "CERÉN ALFARO", "JAVIER ANTΟΝΙO", "4985416@clases.edu.sv", "G26FNP", "MANTENIMIENTO AUTOMOTRIZ", "B"],
+      [4300571, "ERAZO ALVAYERO", "MARÍA MILAGRO", "4300571@clases.edu.sv", "DX8852", "MANTENIMIENTO AUTOMOTRIZ", "B"],
+      [5359955, "HENRÍQUEZ VANEGAS", "PABLO ALEXANDER", "5359955@clases.edu.sv", "HH4HQ4", "MANTENIMIENTO AUTOMOTRIZ", "B"],
+      [4960181, "HERRERA MUNDO", "JOSUÉ EDGARDO", "4960181@clases.edu.sv", "FVVJHE", "MANTENIMIENTO AUTOMOTRIZ", "B"],
+      [6046999, "LARÍN JIMÉNEZ", "BRYAN EZEQUIEL", "6046999@clases.edu.sv", "K2K2Z2", "MANTENIMIENTO AUTOMOTRIZ", "B"],
+      [6654339, "MANZUR OVIEDO", "CARLOS ENRIQUE", "6654339@clases.edu.sv", "LG8UVF", "MANTENIMIENTO AUTOMOTRIZ", "B"],
+      [4113186, "MARTÍNEZ RIVERA", "ÁNGEL STEVEN", "4113186@clases.edu.sv", "DHC812", "MANTENIMIENTO AUTOMOTRIZ", "B"],
+      [19947929, "MIRANDA VÁSQUEZ", "EMERSON MANUEL", "19947929@clases.edu.sv", "VN24VT", "MANTENIMIENTO AUTOMOTRIZ", "B"],
+      [19984757, "MORATAYA DOMÍNGUEZ", "ALEXIA DAYANARA", "19984757@clases.edu.sv", "WQL85N", "MANTENIMIENTO AUTOMOTRIZ", "B"],
+      [5100511, "PÉREZ CHANTA", "CHRISTOPHER AMÍLCAR", "5100511@clases.edu.sv", "GZNTR1", "MANTENIMIENTO AUTOMOTRIZ", "B"],
+      [19703776, "PORTILLO DE LA CRUZ", "CARLOS GEOVANNY", "19703776@clases.edu.sv", "04F8XQ", "MANTENIMIENTO AUTOMOTRIZ", "B"],
+      [19815642, "RAMOS COCA", "ÁNGEL GUSTAVO", "19815642@clases.edu.sv", "RZHV7G", "MANTENIMIENTO AUTOMOTRIZ", "B"],
+      [19988971, "RODRÍGUEZ IRAHETA", "JEFFERSON JOSUÉ", "19988971@clases.edu.sv", "WUZK18", "MANTENIMIENTO AUTOMOTRIZ", "B"],
+      [19816557, "SORIANO MELGAR", "MIGUEL ÁNGEL", "19816557@clases.edu.sv", "S1AYD3", "MANTENIMIENTO AUTOMOTRIZ", "B"],
+      [10206335, "VÁSQUEZ MÉNDEZ", "KEVIN RAFAEL", "10206335@clases.edu.sv", "NKOGU5", "MANTENIMIENTO AUTOMOTRIZ", "B"],
+      [20100401, "VENTURA GUZMÁN", "JAVIER OTONIEL", "20100401@clases.edu.sv", "YEU4WS", "MANTENIMIENTO AUTOMOTRIZ", "B"],
+      [19850375, "ZARCEÑO CORNEJO", "ELMER NOÉ", "19850375@clases.edu.sv", "STW5QX", "MANTENIMIENTO AUTOMOTRIZ", "B"],
+
+      // Pág 8: Mantenimiento Automotriz C (23)
+      [19817436, "ALVARADO BARILLAS", "JAVIER ENOC", "19817436@clases.edu.sv", "S1VQSA", "MANTENIMIENTO AUTOMOTRIZ", "C"],
+      [20256914, "CABRERA RAMÍREZ", "ERIKA LISSETH", "20256914@clases.edu.sv", "ZK38HD", "MANTENIMIENTO AUTOMOTRIZ", "C"],
+      [20005375, "CHACÓN BARAHONA", "DIEGO ENRIQUE", "20005375@clases.edu.sv", "X9MLRQ", "MANTENIMIENTO AUTOMOTRIZ", "C"],
+      [5359892, "FERNÁNDEZ HENRÍQUEZ", "MARÍA ERLINDA", "5359892@clases.edu.sv", "HGWYMX", "MANTENIMIENTO AUTOMOTRIZ", "C"],
+      [19994350, "FLORES GUEVARA", "MARVIN EDUARDO", "19994350@clases.edu.sv", "X1H7K9", "MANTENIMIENTO AUTOMOTRIZ", "C"],
+      [10192000, "MARTÍNEZ MARÍN", "MERARY ABIGAIL", "10192000@clases.edu.sv", "NHWS1H", "MANTENIMIENTO AUTOMOTRIZ", "C"],
+      [4094121, "MEDINA GÓMEZ", "JOSUÉ DEMETRIO", "4094121@clases.edu.sv", "DG2RMP", "MANTENIMIENTO AUTOMOTRIZ", "C"],
+      [19882694, "MÉNDEZ FLORES", "BRYAN CALED", "19882694@clases.edu.sv", "TN8FGP", "MANTENIMIENTO AUTOMOTRIZ", "C"],
+      [5020361, "ORTIZ AGUILUZ", "ÁNGEL DANIEL", "5020361@clases.edu.sv", "GFKBT8", "MANTENIMIENTO AUTOMOTRIZ", "C"],
+      [3558069, "ORTIZ GÓMEZ", "CARLOS ENRIQUE", "3558069@clases.edu.sv", "CLRD75", "MANTENIMIENTO AUTOMOTRIZ", "C"],
+      [4267783, "ORTÍZ HERNÁNDEZ", "ELMER ALEJANDRO", "4267783@clases.edu.sv", "DVMA6V", "MANTENIMIENTO AUTOMOTRIZ", "C"],
+      [129732995, "PAREDES HERNÁNDEZ", "BRYAN EDUARDO", "129732995@clases.edu.sv", "ZXLVKG", "MANTENIMIENTO AUTOMOTRIZ", "C"],
+      [4995457, "RAMOS GARCÍA", "HÉCTOR OMAR", "4995457@clases.edu.sv", "G7C1CW", "MANTENIMIENTO AUTOMOTRIZ", "C"],
+      [5579042, "RIVERA CORADO", "SANTIAGO DAVID", "5579042@clases.edu.sv", "HYT2F3", "MANTENIMIENTO AUTOMOTRIZ", "C"],
+      [19773544, "RIVERA QUEZADA", "ROBERTO ELÍAS", "19773544@clases.edu.sv", "QHPYWJ", "MANTENIMIENTO AUTOMOTRIZ", "C"],
+      [19883524, "RODRÍGUEZ ALVARENGA", "JESÚS LEONEL", "19883524@clases.edu.sv", "TOMLGX", "MANTENIMIENTO AUTOMOTRIZ", "C"],
+      [20051122, "ROSALES SOLANO", "MARVIN OSVALDO", "20051122@clases.edu.sv", "XV7RN5", "MANTENIMIENTO AUTOMOTRIZ", "C"],
+      [3265522, "SÁNCHEZ CARRILLO", "VÍCTOR LEVÍ", "3265522@clases.edu.sv", "BWDNEY", "MANTENIMIENTO AUTOMOTRIZ", "C"],
+      [5451442, "SANTOS HERNÁNDEZ", "BRANDON DE JESÚS", "5451442@clases.edu.sv", "HLFTPE", "MANTENIMIENTO AUTOMOTRIZ", "C"],
+      [5020365, "UMAÑA MENDOZA", "OSCAR ALFREDO", "5020365@clases.edu.sv", "GFKMG9", "MANTENIMIENTO AUTOMOTRIZ", "C"],
+      [5451935, "VARGAS VARGAS", "JONATHAN ELISEO", "5451935@clases.edu.sv", "HM5G7T", "MANTENIMIENTO AUTOMOTRIZ", "C"],
+      [4520047, "VÁSQUEZ ÁNGEL", "CHRISTIAN ALEXANDER", "4520047@clases.edu.sv", "EB6SN1", "MANTENIMIENTO AUTOMOTRIZ", "C"],
+      [5365129, "VÁSQUEZ RECINOS", "GUSTAVO ARIEL", "5365129@clases.edu.sv", "HJTCH4", "MANTENIMIENTO AUTOMOTRIZ", "C"],
+
+      // Pág 9: Mantenimiento Automotriz D (21)
+      [5451971, "ALVARADO RECINOS", "CRISTOPHER STANLEY", "5451971@clases.edu.sv", "HM7NQA", "MANTENIMIENTO AUTOMOTRIZ", "D"],
+      [6133771, "ARCE HERNÁNDEZ", "BRYAN ALEXIS", "6133771@clases.edu.sv", "KBPV1R", "MANTENIMIENTO AUTOMOTRIZ", "D"],
+      [5717382, "AVELAR PINEDA", "ANDRÉS EMANUEL", "5717382@clases.edu.sv", "J99H9J", "MANTENIMIENTO AUTOMOTRIZ", "D"],
+      [2891605, "BARAHONA ANAYA", "DAVID ALBERTO", "2891605@clases.edu.sv", "ATD8C7", "MANTENIMIENTO AUTOMOTRIZ", "D"],
+      [19872110, "CASTILLO PAREDES", "YAHIR ERNESTO", "19872110@clases.edu.sv", "TCRK8K", "MANTENIMIENTO AUTOMOTRIZ", "D"],
+      [2891619, "CHÁVEZ PANΑΜΕΝΟ", "JOSUÉ DANIEL", "2891619@clases.edu.sv", "ATFJ3X", "MANTENIMIENTO AUTOMOTRIZ", "D"],
+      [19795191, "FUENTES CASTRO", "SAMUEL ALBERTO", "19795191@clases.edu.sv", "RBGA9Q", "MANTENIMIENTO AUTOMOTRIZ", "D"],
+      [6799185, "GARCÍA GUZMÁN", "DIEGO ALEXANDER", "6799185@clases.edu.sv", "LUA1ZY", "MANTENIMIENTO AUTOMOTRIZ", "D"],
+      [4660223, "GARCÍA HERNÁNDEZ", "MOISÉS ADONAY", "4660223@clases.edu.sv", "F1P6WB", "MANTENIMIENTO AUTOMOTRIZ", "D"],
+      [3249840, "HERNÁNDEZ GARCÍA", "JOSUÉ DAVID", "3249840@clases.edu.sv", "BU1MQS", "MANTENIMIENTO AUTOMOTRIZ", "D"],
+      [4839806, "LÓPEZ RIVERA", "TIRSA IDANΙΑ", "4839806@clases.edu.sv", "FHB3BU", "MANTENIMIENTO AUTOMOTRIZ", "D"],
+      [7119093, "MÉNDEZ AZMITIA", "SAMUEL ERNESTO", "7119093@clases.edu.sv", "MT1LN6", "MANTENIMIENTO AUTOMOTRIZ", "D"],
+      [5100632, "MIRANDA SANTOS", "CARLOS MISAEL", "5100632@clases.edu.sv", "GZR9NP", "MANTENIMIENTO AUTOMOTRIZ", "D"],
+      [20294869, "ORTÍZ GÓMEZ", "CHRISTIAN ALEXIS", "20294869@clases.edu.sv", "ZQ7VXJ", "MANTENIMIENTO AUTOMOTRIZ", "D"],
+      [6134568, "ORTIZ QUINTANILLA", "JONATHAN SAÚL", "6134568@clases.edu.sv", "KCMCTD", "MANTENIMIENTO AUTOMOTRIZ", "D"],
+      [19886661, "PAIZ VÁSQUEZ", "ELVIRA LIBERTAD", "19886661@clases.edu.sv", "TSCJZC", "MANTENIMIENTO AUTOMOTRIZ", "D"],
+      [4658878, "PEÑA RAMOS", "MATEO ARIEL", "4658878@clases.edu.sv", "EUU1MG", "MANTENIMIENTO AUTOMOTRIZ", "D"],
+      [6047347, "RAMÍREZ FLORES", "HENRY ISRAEL", "6047347@clases.edu.sv", "K2LF1H", "MANTENIMIENTO AUTOMOTRIZ", "D"],
+      [3195521, "RIVAS CHÁVEZ", "KATHERINE YAMILETH", "3195521@clases.edu.sv", "BN4AYM", "MANTENIMIENTO AUTOMOTRIZ", "D"],
+      [3716531, "RIVAS RIVAS", "WILBER VLADIMIR", "3716531@clases.edu.sv", "D1ZW57", "MANTENIMIENTO AUTOMOTRIZ", "D"],
+      [7321496, "ROJAS CRUZ", "JONATHAN ERNESTO", "7321496@clases.edu.sv", "N7JNZ1", "MANTENIMIENTO AUTOMOTRIZ", "D"],
+
+      // Pág 10: Mantenimiento Automotriz E (21)
+      [19800449, "BERMÚDEZ CRUZ", "KEIRY EUNICE", "19800449@clases.edu.sv", "RJ3KF5", "MANTENIMIENTO AUTOMOTRIZ", "E"],
+      [4653019, "CAMPOS MANCÍA", "JONATHAN STEEVEN", "4653019@clases.edu.sv", "EFAQBS", "MANTENIMIENTO AUTOMOTRIZ", "E"],
+      [20159104, "CAÑAS SANTOS", "GERMÁN ALEXANDER", "20159104@clases.edu.sv", "Z7NNCD", "MANTENIMIENTO AUTOMOTRIZ", "E"],
+      [6410865, "CERÓN HERNÁNDEZ", "DANIEL EDUARDO", "6410865@clases.edu.sv", "KW8W7E", "MANTENIMIENTO AUTOMOTRIZ", "E"],
+      [19952826, "CISNEROS ABARCA", "BRYAN STANLEY", "19952826@clases.edu.sv", "VRXKEV", "MANTENIMIENTO AUTOMOTRIZ", "E"],
+      [5031723, "DE LEÓN ARUCHA", "SALVADOR ANTONIO", "5031723@clases.edu.sv", "GLMKB2", "MANTENIMIENTO AUTOMOTRIZ", "E"],
+      [19883727, "GÓMEZ DURÁN", "ELMER DANIEL", "19883727@clases.edu.sv", "TOWJ5J", "MANTENIMIENTO AUTOMOTRIZ", "E"],
+      [3982086, "GRACIAS GARCÍA", "ULISES BENJAMÍN", "3982086@clases.edu.sv", "DB49D1", "MANTENIMIENTO AUTOMOTRIZ", "E"],
+      [4213032, "HERNÁNDEZ GUTIÉRREZ", "MIGUEL IGNACIO", "4213032@clases.edu.sv", "DQ88WH", "MANTENIMIENTO AUTOMOTRIZ", "E"],
+      [19916123, "LÓPEZ LEONARDO", "BRANDON OSWALDO", "19916123@clases.edu.sv", "UN42H9", "MANTENIMIENTO AUTOMOTRIZ", "E"],
+      [3561015, "MARTÍNEZ RAMOS", "RODRIGO VLADIMIR", "3561015@clases.edu.sv", "CN198V", "MANTENIMIENTO AUTOMOTRIZ", "E"],
+      [4995039, "NAVAS LARA", "CHRISTIAN REINALDO", "4995039@clases.edu.sv", "G74VWR", "MANTENIMIENTO AUTOMOTRIZ", "E"],
+      [5012427, "NÚÑEZ PALACIOS", "JUSTIN ENRIQUE", "5012427@clases.edu.sv", "GCZUJF", "MANTENIMIENTO AUTOMOTRIZ", "E"],
+      [6652769, "OCHOA AGUILAR", "FRANCISCO ALONSO", "6652769@clases.edu.sv", "LEU4RR", "MANTENIMIENTO AUTOMOTRIZ", "E"],
+      [5012952, "ORELLANA NAVAS", "JONATHAN DANIEL", "5012952@clases.edu.sv", "GE4BOV", "MANTENIMIENTO AUTOMOTRIZ", "E"],
+      [19787948, "RAMOS LEIVA", "SUSANA DE LOS ÁNGELES", "19787948@clases.edu.sv", "R2MRKY", "MANTENIMIENTO AUTOMOTRIZ", "E"],
+      [4658375, "RIVERA PAIZ", "RICARDO JAVIER", "4658375@clases.edu.sv", "ES6FEV", "MANTENIMIENTO AUTOMOTRIZ", "E"],
+      [2891298, "URÍAS HERNÁNDEZ", "JOSÉ ALFREDO", "2891298@clases.edu.sv", "AT5P52", "MANTENIMIENTO AUTOMOTRIZ", "E"],
+      [7360537, "VÁSQUEZ ORTIZ", "JONATHAN HERIBERTO", "7360537@clases.edu.sv", "N9LSXU", "MANTENIMIENTO AUTOMOTRIZ", "E"],
+      [20165164, "VENTURA CHÁVEZ", "IKER D' ALESSANDRO", "20165164@clases.edu.sv", "ZBBD47", "MANTENIMIENTO AUTOMOTRIZ", "E"],
+      [19732255, "VIVAS SORIANO", "JULIO EDUARDO", "19732255@clases.edu.sv", "OXH7V5", "MANTENIMIENTO AUTOMOTRIZ", "E"],
+
+      // Pág 11: Mantenimiento Automotriz F (23)
+      [19967019, "BENÍTEZ RAMÍREZ", "JORGE HUMBERTO", "19967019@clases.edu.sv", "W56CZ2", "MANTENIMIENTO AUTOMOTRIZ", "F"],
+      [3714363, "COLINDRES SILVA", "ANDY STEVEN", "3714363@clases.edu.sv", "CZQHNK", "MANTENIMIENTO AUTOMOTRIZ", "F"],
+      [20136058, "CRUZ MENDOZA", "KEVIN GEOVANNI", "20136058@clases.edu.sv", "YUYWBQ", "MANTENIMIENTO AUTOMOTRIZ", "F"],
+      [20147141, "DE LA O MONTOYA", "EDWIN MAURICIO", "20147141@clases.edu.sv", "Z1T1NP", "MANTENIMIENTO AUTOMOTRIZ", "F"],
+      [2748123, "FUENTES CARBAJAL", "MOISÉS ORLANDO", "2748123@clases.edu.sv", "AM1W56", "MANTENIMIENTO AUTOMOTRIZ", "F"],
+      [19849235, "GONZÁLEZ SAAVEDRA", "ALEXIA GUADALUPE", "19849235@clases.edu.sv", "SSXM3K", "MANTENIMIENTO AUTOMOTRIZ", "F"],
+      [5784128, "HENRÍQUEZ GUEVARA", "JONATHAN ALEXANDER", "5784128@clases.edu.sv", "JDAY6R", "MANTENIMIENTO AUTOMOTRIZ", "F"],
+      [4961490, "HERNÁNDEZ LÓPEZ", "CRISTIAN ALEJANDRO", "4961490@clases.edu.sv", "FWRPQJ", "MANTENIMIENTO AUTOMOTRIZ", "F"],
+      [4801493, "HERRERA LEON", "KATHERINE EUNICE", "4801493@clases.edu.sv", "FCQH8T", "MANTENIMIENTO AUTOMOTRIZ", "F"],
+      [6654319, "JORGE DEODANES", "OSCAR ARMANDO", "6654319@clases.edu.sv", "LG81T5", "MANTENIMIENTO AUTOMOTRIZ", "F"],
+      [5012405, "JUÁREZ SÁNCHEZ", "CLAUDIA RAQUEL", "5012405@clases.edu.sv", "GCTQ3R", "MANTENIMIENTO AUTOMOTRIZ", "F"],
+      [19981638, "JUAREZ VASQUEZ", "JARED ABIU", "19981638@clases.edu.sv", "WN8MYK", "MANTENIMIENTO AUTOMOTRIZ", "F"],
+      [4994001, "LÓPEZ MEJÍA", "LEVÍ EZEQUIEL", "4994001@clases.edu.sv", "G6CVHA", "MANTENIMIENTO AUTOMOTRIZ", "F"],
+      [19787060, "MARTÍNEZ MENJÍVAR", "BRANDON ALBERTO", "19787060@clases.edu.sv", "R1AY7E", "MANTENIMIENTO AUTOMOTRIZ", "F"],
+      [5304692, "MEDRANO QUINTANILLA", "WILBER ULISES", "5304692@clases.edu.sv", "HBH7QH", "MANTENIMIENTO AUTOMOTRIZ", "F"],
+      [19999525, "MENJÍVAR VALLE", "ANDRÉ JAVIER", "19999525@clases.edu.sv", "X4RBC2", "MANTENIMIENTO AUTOMOTRIZ", "F"],
+      [19810608, "MORALES", "JOSUÉ CALEB", "19810608@clases.edu.sv", "RTTBNM", "MANTENIMIENTO AUTOMOTRIZ", "F"],
+      [19806998, "MORÁN GUERRA", "ÁNGEL ADALBERTO", "19806998@clases.edu.sv", "RPPJ7X", "MANTENIMIENTO AUTOMOTRIZ", "F"],
+      [2936086, "ORTIZ ANDRADE", "DANIEL ALEJANDRO", "2936086@clases.edu.sv", "AXLUC9", "MANTENIMIENTO AUTOMOTRIZ", "F"],
+      [19707082, "PÉREZ AGUIRRE", "LÁZARO RAFAEL", "19707082@clases.edu.sv", "05MGB5", "MANTENIMIENTO AUTOMOTRIZ", "F"],
+      [6301211, "ROJAS MARTÍNEZ", "ANDY STEVEN", "6301211@clases.edu.sv", "KJJDSF", "MANTENIMIENTO AUTOMOTRIZ", "F"],
+      [19981719, "TRINIDAD CAMPOS", "EDWIN ABRAHAM", "19981719@clases.edu.sv", "WNJO9V", "MANTENIMIENTO AUTOMOTRIZ", "F"],
+      [5827537, "VENTURA MARTÍNEZ", "EDISON BENJAMÍN", "5827537@clases.edu.sv", "JMT4L6", "MANTENIMIENTO AUTOMOTRIZ", "F"],
+
+      // Pág 12: Mantenimiento Automotriz G (22)
+      [5240258, "APARICIO MARROQUÍN", "JASON LEONEL", "5240258@clases.edu.sv", "H8J5SO", "MANTENIMIENTO AUTOMOTRIZ", "G"],
+      [4703193, "APARICIO ZALDÍVAR", "LUIS EDGARDO", "4703193@clases.edu.sv", "F6LR8A", "MANTENIMIENTO AUTOMOTRIZ", "G"],
+      [19884504, "CALLES ROSALES", "JOSUE GABRIEL", "19884504@clases.edu.sv", "TQ71NA", "MANTENIMIENTO AUTOMOTRIZ", "G"],
+      [4801809, "CAMPOS FUENTES", "MARIANA ALEXANDRA", "4801809@clases.edu.sv", "FCYPT7", "MANTENIMIENTO AUTOMOTRIZ", "G"],
+      [19787599, "CARPIO CANALES", "ELISEO VLADIMIR", "19787599@clases.edu.sv", "R1VY5Q", "MANTENIMIENTO AUTOMOTRIZ", "G"],
+      [20085302, "CARRILLO VÁSQUEZ", "EMERSON HUMBERTO", "20085302@clases.edu.sv", "Y9LLOD", "MANTENIMIENTO AUTOMOTRIZ", "G"],
+      [19933918, "CARRILLO VÁSQUEZ", "MELVIN SAMUEL", "19933918@clases.edu.sv", "V5Z5KE", "MANTENIMIENTO AUTOMOTRIZ", "G"],
+      [5718025, "CHÁVEZ MOLINA", "MICHAEL VLADIMIR", "5718025@clases.edu.sv", "J9G4Q5", "MANTENIMIENTO AUTOMOTRIZ", "G"],
+      [5544683, "ESCOBAR AGUILAR", "SALVADOR ALEXANDER", "5544683@clases.edu.sv", "HXGUPV", "MANTENIMIENTO AUTOMOTRIZ", "G"],
+      [20118709, "FABIÁN NARVÁEZ", "ROBERTO JOEL", "20118709@clases.edu.sv", "YOE73D", "MANTENIMIENTO AUTOMOTRIZ", "G"],
+      [19963996, "GARCÍA CRUZ", "AMILCAR GEOVANNI", "19963996@clases.edu.sv", "W2XQG5", "MANTENIMIENTO AUTOMOTRIZ", "G"],
+      [2955769, "JUSTO PALACIOS", "HÉCTOR NAÚN", "2955769@clases.edu.sv", "AYQRHB", "MANTENIMIENTO AUTOMOTRIZ", "G"],
+      [19714008, "LÓPEZ VÁSQUEZ", "JOSEPH YARED", "19714008@clases.edu.sv", "OB7H6U", "MANTENIMIENTO AUTOMOTRIZ", "G"],
+      [19709047, "MARTINEZ LOPEZ", "JOSUE ERNESTO", "19709047@clases.edu.sv", "06MJ4G", "MANTENIMIENTO AUTOMOTRIZ", "G"],
+      [9784097, "MELARA CASTELLANOS", "WILLIAM DAVID", "9784097@clases.edu.sv", "QX23NC", "MANTENIMIENTO AUTOMOTRIZ", "G"],
+      [6134555, "MÉNDEZ GARCÍA", "LUIS ALEJANDRO", "6134555@clases.edu.sv", "KCHD6P", "MANTENIMIENTO AUTOMOTRIZ", "G"],
+      [3040224, "MÉNDEZ MORALES", "JACQUELINE ROSMERY", "3040224@clases.edu.sv", "B50250", "MANTENIMIENTO AUTOMOTRIZ", "G"],
+      [6106944, "MERLOS TURCIOS", "LEVÍ ALEJANDRO", "6106944@clases.edu.sv", "K956JS", "MANTENIMIENTO AUTOMOTRIZ", "G"],
+      [4986317, "MORALES LÓPEZ", "ELMER ADONIS", "4986317@clases.edu.sv", "G3NJB5", "MANTENIMIENTO AUTOMOTRIZ", "G"],
+      [10206328, "ORTIZ VÁSQUEZ", "JAVIER ADONAY", "10206328@clases.edu.sv", "NKKXKW", "MANTENIMIENTO AUTOMOTRIZ", "G"],
+      [3715433, "PEREZ MARTINEZ", "JOSUE ARMANDO", "3715433@clases.edu.sv", "D14KSX", "MANTENIMIENTO AUTOMOTRIZ", "G"],
+      [6928972, "ROJAS GONZÁLEZ", "FRANCISCO JOEL", "6928972@clases.edu.sv", "MGWBQV", "MANTENIMIENTO AUTOMOTRIZ", "G"],
+
+      // Pág 13: Mantenimiento Automotriz H (24)
+      [4960211, "AMAYA RIVERA", "JEFFERSON ALEJANDRO", "4960211@clases.edu.sv", "FW19NX", "MANTENIMIENTO AUTOMOTRIZ", "H"],
+      [2353589, "CRUZ SÁNCHEZ", "EDWIN JOSUÉ", "2353589@clases.edu.sv", "A4CPOU", "MANTENIMIENTO AUTOMOTRIZ", "H"],
+      [20346295, "GONZÁLEZ RIVERA", "DERECK ISAÍAS", "20346295@clases.edu.sv", "ZT5DMF", "MANTENIMIENTO AUTOMOTRIZ", "H"],
+      [4995044, "LÓPEZ LÓPEZ", "CHRISTOPHER MATHEW", "4995044@clases.edu.sv", "G75PLZ", "MANTENIMIENTO AUTOMOTRIZ", "H"],
+      [19741527, "MUNGUÍA CRUZ", "JAIRO AMITAÍ", "19741527@clases.edu.sv", "PAMAYJ", "MANTENIMIENTO AUTOMOTRIZ", "H"],
+      [19752957, "ORELLANA RIVERA", "KEVIN ANTΟΝΙO", "19752957@clases.edu.sv", "PPGHA2", "MANTENIMIENTO AUTOMOTRIZ", "H"],
+      [5304501, "ORELLANA SERRANO", "MÁXIMO SAMUEL", "5304501@clases.edu.sv", "HB6NDY", "MANTENIMIENTO AUTOMOTRIZ", "H"],
+      [3037690, "ORTIZ GONZÁLEZ", "MANUEL ALEXANDER", "3037690@clases.edu.sv", "B4C3GW", "MANTENIMIENTO AUTOMOTRIZ", "H"],
+      [5359444, "PARADA MARTINEZ", "LEVI ESAU", "5359444@clases.edu.sv", "HGPVDX", "MANTENIMIENTO AUTOMOTRIZ", "H"],
+      [2689584, "PÉREZ ZALDAÑA", "ALEXIS FRANCISCO", "2689584@clases.edu.sv", "AE4BRJ", "MANTENIMIENTO AUTOMOTRIZ", "H"],
+      [19981690, "QUINTANILLA FONSECA", "DOUGLAS ESEQUIEL", "19981690@clases.edu.sv", "WNG4OS", "MANTENIMIENTO AUTOMOTRIZ", "H"],
+      [2296430, "RAMÍREZ ALFARO", "DANIELA ELIZABETH", "2296430@clases.edu.sv", "A3OHJL", "MANTENIMIENTO AUTOMOTRIZ", "H"],
+      [5359445, "RAMÍREZ BARRIOS", "NOÉ FERNANDO", "5359445@clases.edu.sv", "HGQ8Y4", "MANTENIMIENTO AUTOMOTRIZ", "H"],
+      [4770827, "REDONDO CASTELLÓN", "ALEXA DENISSE", "4770827@clases.edu.sv", "FASZL8", "MANTENIMIENTO AUTOMOTRIZ", "H"],
+      [19730035, "REYES ORELLANA", "FERNANDO AMILCAR", "19730035@clases.edu.sv", "OUTU9N", "MANTENIMIENTO AUTOMOTRIZ", "H"],
+      [19997358, "REYNADO CHINCHILLA", "LUIS ADONAY", "19997358@clases.edu.sv", "X3UNP6", "MANTENIMIENTO AUTOMOTRIZ", "H"],
+      [10775210, "ROMERO ESCOBAR", "JOSÉ DANIEL", "10775210@clases.edu.sv", "NXTOYS", "MANTENIMIENTO AUTOMOTRIZ", "H"],
+      [6536435, "SALAZAR GÁLVEZ", "KELVIN EDENILSON", "6536435@clases.edu.sv", "L9UZQH", "MANTENIMIENTO AUTOMOTRIZ", "H"],
+      [20116664, "SANTOS RIVERA", "MELVIN ALEXANDER", "20116664@clases.edu.sv", "YNMD8G", "MANTENIMIENTO AUTOMOTRIZ", "H"],
+      [5104053, "SOSA MIRANDA", "JOSÉ ALEXANDER", "5104053@clases.edu.sv", "H3ZSBB", "MANTENIMIENTO AUTOMOTRIZ", "H"],
+      [19710722, "TEJADA ORTIZ", "JEANCARLO ΑΝΤΟΝΙO", "19710722@clases.edu.sv", "085QAJ", "MANTENIMIENTO AUTOMOTRIZ", "H"],
+      [4840109, "TOBAR MENJÍVAR", "GERMÁN EDGARDO", "4840109@clases.edu.sv", "FHJ3TH", "MANTENIMIENTO AUTOMOTRIZ", "H"],
+      [19703718, "VALLE GAVIDIA", "STANLEY SAMUEL", "19703718@clases.edu.sv", "048HYY", "MANTENIMIENTO AUTOMOTRIZ", "H"],
+      [5544707, "VELASQUEZ SEGURA", "ESTEBAN RODRIGO", "5544707@clases.edu.sv", "HXMMSG", "MANTENIMIENTO AUTOMOTRIZ", "H"],
+
+      // Pág 14: Mantenimiento Automotriz I (18)
+      [19783088, "CASTAÑEDA MENDOZA", "BRYAN RICARDO", "19783088@clases.edu.sv", "QVGHU6", "MANTENIMIENTO AUTOMOTRIZ", "I"],
+      [20160459, "COREAS HERNÁNDEZ", "LUIS ENRIQUE", "20160459@clases.edu.sv", "Z8PJ8J", "MANTENIMIENTO AUTOMOTRIZ", "I"],
+      [4840116, "DELGADO JACINTO", "DIDIER ALEXIS", "4840116@clases.edu.sv", "FHR9PD", "MANTENIMIENTO AUTOMOTRIZ", "I"],
+      [4842026, "García Marín", "Samuel Efraín", "4842026@clases.edu.sv", "FL9ZXK", "MANTENIMIENTO AUTOMOTRIZ", "I"],
+      [19868972, "GONZÁLEZ EVORA", "MICHAEL EDENILSON", "19868972@clases.edu.sv", "TA5BQV", "MANTENIMIENTO AUTOMOTRIZ", "I"],
+      [20162494, "HERNÁNDEZ CUELLAR", "LEONEL ALEJANDRO", "20162494@clases.edu.sv", "Z9U219", "MANTENIMIENTO AUTOMOTRIZ", "I"],
+      [6867622, "MELARA MELARA", "GUILLERMO ENRIQUE", "6867622@clases.edu.sv", "LYA6UX", "MANTENIMIENTO AUTOMOTRIZ", "I"],
+      [6013941, "MERINO CUÉLLAR", "GUILLERMO JOSUÉ", "6013941@clases.edu.sv", "JYCMZ1", "MANTENIMIENTO AUTOMOTRIZ", "I"],
+      [3220966, "ORTÍZ MIRANDA", "JORGE OSMÍN", "3220966@clases.edu.sv", "BPS2E8", "MANTENIMIENTO AUTOMOTRIZ", "I"],
+      [19984783, "RODRÍGUEZ MARTÍNEZ", "JOSE YOVANY", "19984783@clases.edu.sv", "WQLHH2", "MANTENIMIENTO AUTOMOTRIZ", "I"],
+      [4438910, "SANCHEZ ABARCA", "RODRIGO ELEAZAR", "4438910@clases.edu.sv", "E7CCZE", "MANTENIMIENTO AUTOMOTRIZ", "I"],
+      [5024777, "SIGARAN ARGUETA", "MAXIMO YASIR", "5024777@clases.edu.sv", "GJZHMK", "MANTENIMIENTO AUTOMOTRIZ", "I"],
+      [5206206, "VÁSQUEZ VÁSQUEZ", "NATALÍ JAZMÍN", "5206206@clases.edu.sv", "H7LMJN", "MANTENIMIENTO AUTOMOTRIZ", "I"],
+      [19848458, "VÁSQUEZ VELÁSQUEZ", "JONATHAN ENRIQUE", "19848458@clases.edu.sv", "SSEXOZ", "MANTENIMIENTO AUTOMOTRIZ", "I"],
+      [19959421, "VEGA DURÁN", "SAMUEL ALEXANDER", "19959421@clases.edu.sv", "VYK424", "MANTENIMIENTO AUTOMOTRIZ", "I"],
+      [19733566, "VELA GIRON", "STEVEN GIOVANNI", "19733566@clases.edu.sv", "OYUSQS", "MANTENIMIENTO AUTOMOTRIZ", "I"],
+      [3486170, "VENTURA MARTINEZ", "CARLOS ALBERTO", "3486170@clases.edu.sv", "CFYY2L", "MANTENIMIENTO AUTOMOTRIZ", "I"],
+      [19908103, "VILLANUEVA JÓVEL", "ADONY ARNOLDO", "19908103@clases.edu.sv", "UE97W4", "MANTENIMIENTO AUTOMOTRIZ", "I"],
+
+      // Pág 15: Mecánica Industrial A (29)
+      [6410970, "AGUILAR JORGE", "MANUEL ERNESTO", "6410970@clases.edu.sv", "KWGXQG", "MECÁNICA INDUSTRIAL", "A"],
+      [4801489, "AMAYA ESCOBAR", "LUCAS MATEO", "4801489@clases.edu.sv", "FCQBWO", "MECÁNICA INDUSTRIAL", "A"],
+      [3876899, "CARBAJAL VANEGAS", "CARLOS FERNANDO", "3876899@clases.edu.sv", "DAM11K", "MECÁNICA INDUSTRIAL", "A"],
+      [4030020, "CHICAS VÁSQUEZ", "JOSÉ DAVID", "4030020@clases.edu.sv", "DDB9VT", "MECÁNICA INDUSTRIAL", "A"],
+      [5025576, "CRUZ BONILLA", "ANDREA MICHELLE", "5025576@clases.edu.sv", "GK9F34", "MECÁNICA INDUSTRIAL", "A"],
+      [2407247, "DIMAS MIRANDA", "JOSUÉ DAVID", "2407247@clases.edu.sv", "A4ZR8G", "MECÁNICA INDUSTRIAL", "A"],
+      [4798096, "FUNES ROMERO", "RODRIGO ALEXANDER", "4798096@clases.edu.sv", "FBUH3J", "MECÁNICA INDUSTRIAL", "A"],
+      [6727549, "GARCÍA MÁRMOL", "KIMBERLY VANESSA", "6727549@clases.edu.sv", "LO98HN", "MECÁNICA INDUSTRIAL", "A"],
+      [2689326, "GONZALEZ RIVAS", "DAVID JOSÉ", "2689326@clases.edu.sv", "AD9QOU", "MECÁNICA INDUSTRIAL", "A"],
+      [4517435, "HERNANDEZ CAMPOS", "ENOC ALEXANDER", "4517435@clases.edu.sv", "EA5904", "MECÁNICA INDUSTRIAL", "A"],
+      [19787405, "HERNÁNDEZ LÓPEZ", "ALEXIS FERNANDO", "19787405@clases.edu.sv", "R1LMXX", "MECÁNICA INDUSTRIAL", "A"],
+      [19786076, "LÓPEZ CORTEZ", "ARAMIS ALEXANDER", "19786076@clases.edu.sv", "QZUFK2", "MECÁNICA INDUSTRIAL", "A"],
+      [6473868, "LÓPEZ FUENTES", "OLIVER BENJAMÍN", "6473868@clases.edu.sv", "L41166", "MECÁNICA INDUSTRIAL", "A"],
+      [19935857, "LÓPEZ TORRES", "JAVIER ALEJANDRO", "19935857@clases.edu.sv", "V8BCXR", "MECÁNICA INDUSTRIAL", "A"],
+      [6537201, "MARTINEZ LOPEZ", "AXEL GEOVANNI", "6537201@clases.edu.sv", "LAEEJ7", "MECÁNICA INDUSTRIAL", "A"],
+      [20092720, "MARTÍNEZ NIETO", "MOISÉS ELEAZAR", "20092720@clases.edu.sv", "YC2W8R", "MECÁNICA INDUSTRIAL", "A"],
+      [20352301, "MARTÍNEZ VÁSQUEZ", "DAVID JOSUÉ", "20352301@clases.edu.sv", "ZTJAJJ", "MECÁNICA INDUSTRIAL", "A"],
+      [6867634, "MARTÍNEZ VÁSQUEZ", "HENRI OSMARO", "6867634@clases.edu.sv", "LYARAN", "MECÁNICA INDUSTRIAL", "A"],
+      [5532104, "MEJÍA AYALA", "ASHLEY ANNELISE", "5532104@clases.edu.sv", "ΗΤΖΥ3Ο", "MECÁNICA INDUSTRIAL", "A"],
+      [7119090, "MÉNDEZ AZMITIA", "EDWIN ENMANUEL", "7119090@clases.edu.sv", "MSZLH2", "MECÁNICA INDUSTRIAL", "A"],
+      [19800479, "MENJIVAR CHAVEZ", "CAMILA FERNANDA", "19800479@clases.edu.sv", "RJA1ZK", "MECÁNICA INDUSTRIAL", "A"],
+      [19754866, "OSORIO LARIOS", "JONATHAN GABRIEL", "19754866@clases.edu.sv", "PRJOVH", "MECÁNICA INDUSTRIAL", "A"],
+      [6931149, "PALACIOS MELCHOR", "CHRISTOPHER LEVI", "6931149@clases.edu.sv", "MJ4KBF", "MECÁNICA INDUSTRIAL", "A"],
+      [4844867, "PINEDA BENÍTEZ", "DENIS ALEXANDER", "4844867@clases.edu.sv", "FOFYOC", "MECÁNICA INDUSTRIAL", "A"],
+      [19971513, "PONCE ESPIΝΟΖΑ", "DANIEL ELISEO", "19971513@clases.edu.sv", "W9G7LR", "MECÁNICA INDUSTRIAL", "A"],
+      [20258963, "REINA RIVAS", "JEREMÍAS ALEXANDER", "20258963@clases.edu.sv", "ZL8OK4", "MECÁNICA INDUSTRIAL", "A"],
+      [6471853, "RODRÍGUEZ LUNA", "MOISÉS ISAÍAS", "6471853@clases.edu.sv", "L26LMG", "MECÁNICA INDUSTRIAL", "A"],
+      [19906228, "ROSALES RIVERA", "ALEJANDRO ISAU", "19906228@clases.edu.sv", "UCXLPU", "MECÁNICA INDUSTRIAL", "A"],
+      [19956367, "TOSTA ORTIZ", "LEANDRO JOSÉ", "19956367@clases.edu.sv", "VVWNKG", "MECÁNICA INDUSTRIAL", "A"],
+
+      // Pág 16 & 17: Sistemas Eléctricos A (36)
+      [4368643, "ALBARRÁN ORANTES", "KEVIN ALEXANDER", "4368643@clases.edu.sv", "E356U1", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [4703319, "ALFARO ALFARO", "LUÍS ELISEO", "4703319@clases.edu.sv", "F7BFT9", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [4842016, "ALVARENGA OZUNA", "ANDERSSON JAVIER", "4842016@clases.edu.sv", "FL7YBL", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [3852378, "ÁLVAREZ CORNEJO", "KENNETH ALEJANDRO", "3852378@clases.edu.sv", "D4B7HG", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [6559512, "BLANCO JIMÉNEZ", "GENESIS ALEXANDRA", "6559512@clases.edu.sv", "LD2EUR", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [19752947, "CERÓN HENRÍQUEZ", "SAMUEL ALEXANDER", "19752947@clases.edu.sv", "PPEXEL", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [3293848, "DEODANES BACILIO", "ESTEFANY ROCÍO", "3293848@clases.edu.sv", "C2GMR8", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [19887083, "ELÍAS RAMÍREZ", "CECILIO ALESSANDRO", "19887083@clases.edu.sv", "TSY4YM", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [3040295, "ESCOBAR MÁRQUEZ", "ANDERSON ALEXIS", "3040295@clases.edu.sv", "B5V8QO", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [5944558, "FLORES LANDAVERDE", "OSCAR RENÉ", "5944558@clases.edu.sv", "JX2AYZ", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [19897385, "FLORES MORÁN", "CHRISTOPHER ADONAY", "19897385@clases.edu.sv", "U4W4QL", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [4987289, "GARCÍA MEJÍA", "HELEN ELIZABETH", "4987289@clases.edu.sv", "G47KEX", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [19812159, "GARCÍA OSORIO", "ERICK ALEJANDRO", "19812159@clases.edu.sv", "RVH720", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [3250783, "LÓPEZ BOLAÑOS", "CARLOS DANIEL", "3250783@clases.edu.sv", "BUBRWS", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [19787339, "LÓPEZ CAMPOS", "EMMANUEL ERNESTO", "19787339@clases.edu.sv", "R1HMGW", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [19787340, "LÓPEZ CAMPOS", "ENOC ELISEO", "19787340@clases.edu.sv", "R1HTND", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [20162498, "LÓPEZ CÓRDOVA", "DIEGO ALONSO", "20162498@clases.edu.sv", "Z9U609", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [6798254, "LOVOS MONTOYA", "HENRY MOISÉS", "6798254@clases.edu.sv", "LTWFJL", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [19994450, "MARTÍNEZ ESCOBAR", "FRANCISCO ENMANUEL", "19994450@clases.edu.sv", "X1JY18", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [4960200, "MAYEN RIVAS", "JONATHAN STEVEN", "4960200@clases.edu.sv", "FVZQG5", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [4986286, "MENJÍVAR MARTÍNEZ", "JOSÉ EMANUEL", "4986286@clases.edu.sv", "G3J4H5", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [6375656, "MOLINA CASTRO", "JOSÉ MAURICIO", "6375656@clases.edu.sv", "KSVDKZ", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [4698877, "MORALES CRUZ", "SAMUEL ALEXANDER", "4698877@clases.edu.sv", "F3LZFK", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [19964010, "MORALES GRANDE", "JOSTIN YUVINI", "19964010@clases.edu.sv", "W2ZD7E", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [5365173, "NAJARRO HERNÁNDEZ", "ROBERTO ALEJANDRO", "5365173@clases.edu.sv", "HJXXNE", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [19998056, "NAVAS BELTRÁN", "KEVIN SANTIAGO", "19998056@clases.edu.sv", "X47935", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [2689609, "PÉREZ CHINQUE", "DAVID ELISEO", "2689609@clases.edu.sv", "AE5FNC", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [4986085, "RIVERA RAMOS", "MARCOS ALEXANDER", "4986085@clases.edu.sv", "G2XK73", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [19869063, "RODAS PÉREZ", "FRANKLIN ARMANDO", "19869063@clases.edu.sv", "TA7R9G", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [19850091, "RODRÍGUEZ DIMAS", "JOSÉ EDUARDO", "19850091@clases.edu.sv", "STF56G", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [5359971, "RODRÍGUEZ HENRÍQUEZ", "JOSÉ HUMBERTO", "5359971@clases.edu.sv", "HHBWXT", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [2893960, "SÁNCHEZ ASCENCIO", "STEVEN GERARD", "2893960@clases.edu.sv", "AV4V4M", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [5451286, "SÁNCHEZ SÁNCHEZ", "GERSON EDENILSON", "5451286@clases.edu.sv", "HLDQMJ", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [19961488, "VÁSQUEZ GARCÍA", "JOSÉ SAMUEL", "19961488@clases.edu.sv", "W1KSQ3", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [5684463, "VIDALES RODRÍGUEZ", "JOHANA MARISOL", "5684463@clases.edu.sv", "J7QYX2", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"],
+      [19881860, "VILLANUEVA MEJÍA", "NAARA MADAI", "19881860@clases.edu.sv", "TMF9CO", "SISTEMAS ELÉCTRICOS Y ENERGIAS REN", "A"]
+    ];
+
+    // Mapeo de objetos
+    const students = rawStudentsData.map((item) => ({
+      nie: item[0].toString(),
+      apellidos: item[1],
+      nombres: item[2],
+      usuario: item[3],
+      pass: item[4],
+      opcion: item[5],
+      seccion: item[6]
+    }));
+
+    // Referencias al DOM
+    const searchInput = document.getElementById('search-input');
+    const optionSelect = document.getElementById('option-select');
+    const sectionSelect = document.getElementById('section-select');
+    const btnReset = document.getElementById('btn-reset');
+    const studentsGrid = document.getElementById('students-grid');
+    const resultsCount = document.getElementById('results-count');
+    const noResults = document.getElementById('no-results');
+
+    // Función principal de renderizado
+    function renderStudents(data) {
+      studentsGrid.innerHTML = '';
+      resultsCount.textContent = data.length;
+
+      if (data.length === 0) {
+        noResults.classList.remove('hidden');
+        studentsGrid.classList.add('hidden');
+        return;
+      } else {
+        noResults.classList.add('hidden');
+        studentsGrid.classList.remove('hidden');
+      }
+
+      data.forEach((student) => {
+        const card = document.createElement('div');
+        card.className = "bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-200 p-5 flex flex-col justify-between relative overflow-hidden group";
+        
+        card.innerHTML = `
+          <div>
+            <!-- Header Tarjeta -->
+            <div class="flex justify-between items-start mb-3 gap-2">
+              <div>
+                <span class="text-[10px] font-bold tracking-wider uppercase bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-md border border-indigo-100">
+                  Sec. ${student.seccion}
+                </span>
+                <p class="text-xs text-slate-400 mt-1 font-mono">NIE: <span class="font-bold text-slate-600">${student.nie}</span></p>
+              </div>
+              <span class="text-[11px] font-medium text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full text-right truncate max-w-[150px]" title="${student.opcion}">
+                ${student.opcion}
+              </span>
+            </div>
+
+            <!-- Nombre Estudiante -->
+            <h3 class="text-base font-bold text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-1">
+              ${student.apellidos}
+            </h3>
+            <p class="text-sm font-medium text-slate-600 mb-4 line-clamp-1">
+              ${student.nombres}
+            </p>
+
+            <!-- Datos de Acceso -->
+            <div class="space-y-2 bg-slate-50 p-3 rounded-xl border border-slate-100 text-xs">
+              <div class="flex items-center justify-between text-slate-600">
+                <span class="text-slate-400"><i class="fa-regular fa-envelope mr-1.5"></i>Usuario:</span>
+                <span class="font-mono text-slate-800 font-semibold select-all truncate max-w-[180px]">${student.usuario}</span>
+              </div>
+              <div class="flex items-center justify-between pt-1 border-t border-slate-200/60">
+                <span class="text-slate-400"><i class="fa-solid fa-key mr-1.5"></i>Contraseña:</span>
+                <span class="font-mono text-indigo-900 font-bold text-sm bg-indigo-100/70 px-2 py-0.5 rounded tracking-wide">${student.pass}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Acciones -->
+          <div class="mt-4 pt-3 border-t border-slate-100 flex gap-2">
+            <button onclick="copyToClipboard('${student.pass}', 'Contraseña del estudiante ${student.nombres}')" class="flex-1 py-2 px-3 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white text-xs font-semibold rounded-xl transition-all flex items-center justify-center gap-1.5 shadow-sm">
+              <i class="fa-regular fa-copy"></i> Copiar Clave
+            </button>
+            <button onclick="copyToClipboard('${student.usuario}', 'Usuario de ${student.nombres}')" title="Copiar Usuario" class="py-2 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl transition-all flex items-center justify-center border border-slate-200">
+              <i class="fa-solid fa-at"></i>
+            </button>
+          </div>
+        `;
+        studentsGrid.appendChild(card);
+      });
+    }
+
+    // Filtrado Dinámico
+    function filterStudents() {
+      const query = searchInput.value.toLowerCase().trim();
+      const selectedOption = optionSelect.value;
+      const selectedSection = sectionSelect.value;
+
+      const filtered = students.filter((s) => {
+        const matchesQuery = 
+          s.nie.includes(query) ||
+          s.apellidos.toLowerCase().includes(query) ||
+          s.nombres.toLowerCase().includes(query) ||
+          `${s.nombres} ${s.apellidos}`.toLowerCase().includes(query) ||
+          `${s.apellidos} ${s.nombres}`.toLowerCase().includes(query);
+
+        const matchesOption = selectedOption === '' || s.opcion === selectedOption;
+        const matchesSection = selectedSection === '' || s.seccion === selectedSection;
+
+        return matchesQuery && matchesOption && matchesSection;
+      });
+
+      renderStudents(filtered);
+    }
+
+    // Función de Copiado con Fallback seguro
+    function copyToClipboard(text, label) {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(`¡Copiado! (${text})`);
+        }).catch(() => {
+          legacyCopy(text);
+        });
+      } else {
+        legacyCopy(text);
+      }
+    }
+
+    function legacyCopy(text) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-999999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        showToast(`¡Copiado! (${text})`);
+      } catch (err) {
+        showToast("Error al copiar");
+      }
+      document.body.removeChild(textArea);
+    }
+
+    // Toast de Confirmación
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-msg');
+      toastMsg.textContent = message;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 2500);
+    }
+
+    // Limpieza de Filtros
+    function resetFilters() {
+      searchInput.value = '';
+      optionSelect.value = '';
+      sectionSelect.value = '';
+      filterStudents();
+    }
+
+    // Event Listeners
+    searchInput.addEventListener('input', filterStudents);
+    optionSelect.addEventListener('change', filterStudents);
+    sectionSelect.addEventListener('change', filterStudents);
+    btnReset.addEventListener('click', resetFilters);
+
+    // Inicialización
+    window.onload = function() {
+      renderStudents(students);
+    };
+  </script>
+</body>
+</html>
